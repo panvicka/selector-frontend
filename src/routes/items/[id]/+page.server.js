@@ -1,16 +1,7 @@
-import { error } from '@sveltejs/kit';
+import { getItemById } from './../../../api/item';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
-	const url = `http://localhost:9090/rotationItems/get/${params.id}`;
-	const res = await fetch(url);
-
-	const data = await res.json();
-	console.log('jednotlivy');
-	console.log(data.rotationItemId);
-	if (data) {
-		return data.rotationItemId;
-	}
-
-	throw error(404, 'Not found');
+	const res = await getItemById(params.id);
+	return res;
 }

@@ -1,7 +1,17 @@
 <script lang="typescript">
-	import { items } from '../store/itemsStore';
 	import ItemCard from '../components/itemCard.svelte';
 	import { PlusCircleIcon } from 'svelte-feather-icons';
+	import { onMount } from 'svelte';
+	import { getAllItems } from '../api/item';
+
+	let items = [];
+
+	onMount(async () => {
+		console.log('on mount');
+		const res = await getAllItems();
+        console.log(res)
+		items = res;
+	});
 
 	let name = '';
 	let members = '';
@@ -12,7 +22,7 @@
 </svelte:head>
 
 <div class="wrapper">
-	{#each $items as item}
+	{#each items as item}
 		<ItemCard {item} />
 	{/each}
 </div>
@@ -43,7 +53,7 @@
 				placeholder="Type here"
 				class="input input-bordered w-full max-w-xs"
 			/>
-			<button class="btn btn-accent" on:click={formHandler}>Add item</button>
+			<button class="btn btn-accent">Add item</button>
 		</div>
 	</div>
 </div>

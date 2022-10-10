@@ -2,6 +2,7 @@
 	import { SettingsIcon } from 'svelte-feather-icons';
 
 	import { getItemById, updateItem } from '../api/item';
+	import EventCreator from './eventCreator.svelte';
 	import TextField from './general/textField.svelte';
 
 	export let item;
@@ -50,3 +51,5 @@
 		</div>
 	</div>
 </div>
+
+<EventCreator />

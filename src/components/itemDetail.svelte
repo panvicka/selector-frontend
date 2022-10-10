@@ -1,5 +1,6 @@
 <script>
 	import { SettingsIcon } from 'svelte-feather-icons';
+
 	import { getItemById, updateItem } from '../api/item';
 	import TextField from './general/textField.svelte';
 
@@ -22,7 +23,7 @@
 
 <!-- <p>{item._id}</p> -->
 
-<div class="grid place-items-center">
+<div class="grid place-items-center prose-base">
 	<h1>{item.name}</h1>
 
 	<ul>
@@ -38,8 +39,12 @@
 		</div>
 		<div class="collapse-content">
 			<div class="form-control w-full max-w-xs">
-				<TextField label="Name" bind:textValue={name} />
-				<TextField label="Members" bind:textValue={members} />
+				<TextField inputLabel={'Name'} inputPlaceholder="Name of the item" bind:textValue={name} />
+				<TextField
+					inputLabel={'Members'}
+					inputPlaceholder="Member titles (comma separated)"
+					bind:textValue={members}
+				/>
 				<button class="btn btn-accent" on:click={update}>Save</button>
 			</div>
 		</div>

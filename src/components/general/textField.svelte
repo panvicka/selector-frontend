@@ -1,17 +1,16 @@
 <script>
+	export let inputLabel;
+	export let inputPlaceholder;
 	export let textValue;
-
-	let label;
-	let placeholder;
 </script>
 
-<label class="label" for={`${label}-ID`}>
-	<span class="label-text">Name</span>
+<label class="label" for={`${inputLabel}-ID`}>
+	<span class="label-text">{inputLabel}</span>
 </label>
 <input
 	bind:value={textValue}
 	type="text"
-	id={`${label}-ID`}
-	placeholder={placeholder || 'Type here'}
+	id={`${inputLabel}-ID`}
+	placeholder={inputPlaceholder || 'Type here'}
 	class="input input-bordered w-full max-w-xs"
 />

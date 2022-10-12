@@ -28,24 +28,20 @@
 	export let itemId;
 	let selected;
 	let value = null;
-	let people = [
-		{ value: 'chocolate', label: 'Eliska' },
-		{ value: 'pizza', label: 'Tom' },
-		{ value: 'cake', label: 'Tomas' },
-		{ value: 'chips', label: 'Chips' },
-		{ value: 'ice-cream', label: 'Ice Cream' }
-	];
+	let people = [];
+	let selectedPeople = [];
 
-	function handleSelect(event) {
+	function handleSelect(event, index) {
 		console.log('selected item', event.detail);
-		selected = event.detail.value;
+		selectedPeople[index] = event.detail.value;
+		console.log(selectedPeople);
 	}
 
 	const createEventHandler = async () => {
 		console.log('create event');
 		const payload = {
 			item: itemId,
-			people: [selected],
+			people: selectedPeople,
 			startDate: startDate,
 			endDate: endDate
 		};
@@ -59,10 +55,9 @@
 	Start Date <input type="date" bind:value={startDate} />
 	End Date <input type="date" bind:value={endDate} />
 
-	<Select items={people} {value} placeholder={'Select..'} on:select={handleSelect} />
-
-	{#each membersTitles as member}
+	{#each membersTitles as member, i}
 		{member}
+		<Select items={people} {value} placeholder={'Select..'} on:select={(e) => handleSelect(e, i)} />
 	{/each}
 
 	<button class="btn btn-accent" on:click={createEventHandler}>Create Event</button>

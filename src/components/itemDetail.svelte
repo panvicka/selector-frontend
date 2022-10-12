@@ -3,17 +3,17 @@
 
 	import { getItemById, updateItem } from '../api/item';
 	import EventCreator from './eventCreator.svelte';
+	import EventTable from './eventTable.svelte';
 	import TextField from './general/textField.svelte';
 
 	export let item;
 	let name = item.name;
-	let members = item.memberTitles.toString();
-	const membersArray = members.split(',');
-
+	let members = item?.memberTitles?.toString();
+	const membersArray = members?.split(',');
 
 	const update = async (e) => {
 		e.preventDefault();
- 		const res = await updateItem(item._id, { name, memberTitles: membersArray });
+		const res = await updateItem(item._id, { name, memberTitles: membersArray });
 		fetch();
 	};
 
@@ -53,4 +53,5 @@
 	</div>
 </div>
 
-<EventCreator membersTitles={membersArray} itemId={item._id}/>
+<EventCreator membersTitles={membersArray} itemId={item._id} />
+<EventTable />

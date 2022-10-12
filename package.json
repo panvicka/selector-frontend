@@ -14,15 +14,19 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.25.0",
+		"@popperjs/core": "^2.11.6",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@tailwindcss/typography": "^0.5.7",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
 		"autoprefixer": "^10.4.12",
+		"classnames": "^2.3.2",
 		"eslint": "^8.16.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^4.0.0",
+		"flowbite": "^1.5.3",
+		"flowbite-svelte": "^0.27.6",
 		"postcss": "^8.4.17",
 		"prettier": "^2.6.2",
 		"prettier-plugin-svelte": "^2.7.0",
@@ -39,6 +43,7 @@
 	"dependencies": {
 		"axios": "^1.1.2",
 		"daisyui": "^2.31.0",
-		"feather-icons": "^4.29.0"
+		"feather-icons": "^4.29.0",
+		"svelte-select": "^4.4.7"
 	}
 }

@@ -1,16 +1,27 @@
-<svelte:head>
-    <title>People</title>
-</svelte:head>
+<script>
+	import { getAllPeople } from '../../api/people';
+	import { onMount } from 'svelte';
 
-<script> 
-export let data;
-console.log(data.persons)
+	let people = [];
+
+	onMount(async () => {
+		await fetch();
+	});
+
+	const fetch = async () => {
+		const res = await getAllPeople();
+		people = res;
+	};
 </script>
+
+<svelte:head>
+	<title>People</title>
+</svelte:head>
 
 <h1>People</h1>
 
 <ul>
-	{#each data.persons as person}
+	{#each people as person}
 		<li>{person.name}</li>
 	{/each}
 </ul>

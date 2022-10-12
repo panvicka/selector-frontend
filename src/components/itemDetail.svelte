@@ -8,11 +8,12 @@
 	export let item;
 	let name = item.name;
 	let members = item.memberTitles.toString();
+	const membersArray = members.split(',');
+
 
 	const update = async (e) => {
 		e.preventDefault();
-		const membersArray = members.split(',');
-		const res = await updateItem(item._id, { name, memberTitles: membersArray });
+ 		const res = await updateItem(item._id, { name, memberTitles: membersArray });
 		fetch();
 	};
 
@@ -52,4 +53,4 @@
 	</div>
 </div>
 
-<EventCreator />
+<EventCreator membersTitles={membersArray} itemId={item._id}/>

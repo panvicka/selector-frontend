@@ -4,7 +4,10 @@
 	import { getItemById, updateItem } from '../api/item';
 	import EventCreator from './eventCreator.svelte';
 	import EventTable from './eventTable.svelte';
+	import Modal from './general/Modal.svelte';
 	import TextField from './general/textField.svelte';
+
+	let createNewEventModalOpened = false;
 
 	export let item;
 	let name = item.name;
@@ -53,5 +56,20 @@
 	</div>
 </div>
 
-<EventCreator membersTitles={membersArray} itemId={item._id} />
+<button
+	on:click={() => {
+		createNewEventModalOpened = true;
+	}}>add new event</button
+>
+
+{#if createNewEventModalOpened}
+	<Modal>
+		<EventCreator
+			on:close={() => (createNewEventModalOpened = false)}
+			membersTitles={membersArray}
+			itemId={item._id}
+		/>
+	</Modal>
+{/if}
+
 <EventTable />

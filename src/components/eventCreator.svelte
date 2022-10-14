@@ -8,6 +8,13 @@
 	let startDate = new Date();
 	let endDate = new Date();
 
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
+	function close() {
+		dispatch('close');
+	}
+
 	onMount(async () => {
 		await fetch();
 	});
@@ -48,17 +55,21 @@
 		console.log(payload);
 
 		const res = await createEvent(payload);
+		close();
 	};
 </script>
 
-<div class="form-control w-full max-w-xs">
-	Start Date <input type="date" bind:value={startDate} />
+<div class="form-control w-full max-w-xs prose">
+	<h2>Add event</h2>
+	Start Date<input type="date" bind:value={startDate} />
 	End Date <input type="date" bind:value={endDate} />
 
 	{#each membersTitles as member, i}
 		{member}
 		<Select items={people} {value} placeholder={'Select..'} on:select={(e) => handleSelect(e, i)} />
 	{/each}
-
-	<button class="btn btn-accent" on:click={createEventHandler}>Create Event</button>
+	<div>
+		<button class="btn btn-outline btn-info" on:click={createEventHandler}>Create Event</button>
+		<button class="btn btn-outline btn-error" on:click={close}>Cancel</button>
+	</div>
 </div>

@@ -30,6 +30,7 @@ export const updateItem = async (itemId, payload) => {
 
 export const createItem = async (payload) => {
 	try {
+		// to do trimm trailing spaces
 		const response = await Api.post(`/rotationItems/create/`, payload);
 		console.log(response);
 		return response.rotationItemId;

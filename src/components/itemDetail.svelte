@@ -4,31 +4,36 @@
 	import { getItemById, updateItem } from '../api/item';
 	import EventCreator from './eventCreator.svelte';
 	import EventTable from './eventTable.svelte';
+	import ItemForm from './forms/ItemForm.svelte';
 	import Modal from './general/Modal.svelte';
-	import TextField from './general/textField.svelte';
 
 	let createNewEventModalOpened = false;
 
 	export let item;
-	let name = item.name;
-	let members = item?.memberTitles?.toString();
-	const membersArray = members?.split(',');
 
-	const update = async (e) => {
-		e.preventDefault();
-		const res = await updateItem(item._id, { name, memberTitles: membersArray });
+	let letShowEditModal = false;
+
+	const handleEdit = async (event) => {
+		console.log(event.detail);
+		const res = await updateItem(item._id, event.detail.item);
 		fetch();
+		letShowEditModal = false;
 	};
 
-	const fetch = async (id) => {
+	const fetch = async () => {
 		const res = await getItemById(item._id);
 		item = res;
 	};
 </script>
 
-<!-- <p>{item._id}</p> -->
+<span
+	on:click={() => {
+		letShowEditModal = true;
+	}}
+	><SettingsIcon />
+</span>
 
-<div class="grid place-items-center prose-base">
+<div class="grid place-items-center prose">
 	<h1>{item.name}</h1>
 
 	<ul>
@@ -36,24 +41,6 @@
 			<p>{member}</p>
 		{/each}
 	</ul>
-
-	<div class="collapse">
-		<input type="checkbox" />
-		<div class="collapse-title text-xl font-medium">
-			<SettingsIcon size="1.5x" />
-		</div>
-		<div class="collapse-content">
-			<div class="form-control w-full max-w-xs">
-				<TextField inputLabel={'Name'} inputPlaceholder="Name of the item" bind:textValue={name} />
-				<TextField
-					inputLabel={'Members'}
-					inputPlaceholder="Member titles (comma separated)"
-					bind:textValue={members}
-				/>
-				<button class="btn btn-accent" on:click={update}>Save</button>
-			</div>
-		</div>
-	</div>
 </div>
 
 <button
@@ -66,8 +53,21 @@
 	<Modal>
 		<EventCreator
 			on:close={() => (createNewEventModalOpened = false)}
-			membersTitles={membersArray}
+			membersTitles={item.membersTitles}
 			itemId={item._id}
+		/>
+	</Modal>
+{/if}
+
+{#if letShowEditModal}
+	<Modal>
+		<ItemForm
+			title={'edit item'}
+			{item}
+			on:submit={handleEdit}
+			on:close={() => {
+				letShowEditModal = false;
+			}}
 		/>
 	</Modal>
 {/if}

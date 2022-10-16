@@ -33,6 +33,7 @@
 
 	export let membersTitles = ['main', 'support'];
 	export let itemId;
+	console.log('item ID', itemId);
 	let selected;
 	let value = null;
 	let people = [];

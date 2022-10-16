@@ -15,13 +15,16 @@
 
 	export let item = {
 		name: '',
-		members: []
+		memberTitles: []
 	};
+
+	console.log(item);
+
 	export let title = '';
 
-	$: item.members = membersStringed.split(',');
+	let membersStringed = item?.memberTitles?.toString();
 
-	let membersStringed = item.members.toString();
+	$: item.memberTitles = membersStringed.split(',');
 </script>
 
 <h1>{title}</h1>

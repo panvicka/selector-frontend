@@ -30,7 +30,29 @@
 		console.log(eventId);
 		const res = await deleteEvent(eventId);
 		console.log(res);
-		fetch();
+		forceRerender();
+	};
+
+	const forceRerender = async () => {
+		const res = await getAllEvents();
+		events = res;
+
+		data = events.map((event) => {
+			let people = {};
+			event?.item?.memberTitles.forEach((title, index) => {
+				people[title] = event.people?.[index]?.name || '';
+			});
+			console.log(people);
+			console.log(event);
+			console.log(event.endDate ? new Date(event.endDate).toLocaleString().split(',')[0] : '');
+			return {
+				startDate: new Date(event.startDate).toLocaleString().split(',')[0],
+				endDate: event.endDate ? new Date(event.endDate).toLocaleString().split(',')[0] : '',
+				id: event._id,
+				...people
+			};
+		});
+		grid.updateConfig({ data }).forceRender();
 	};
 
 	const fetch = async () => {
@@ -102,7 +124,7 @@
 	};
 </script>
 
-<Grid {data} {columns} sort={true} />
+<Grid bind:instance={grid} {data} {columns} sort={true} />
 
 <style global>
 	/* @import 'https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css'; */

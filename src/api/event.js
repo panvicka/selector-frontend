@@ -12,7 +12,7 @@ export const getAllEvents = async () => {
 export const deleteEvent = async (eventId) => {
 	try {
 		const response = await Api.delete(`/rotationEvents/delete/${eventId}`);
-		console.log(response)
+		console.log(response);
 		return response.message;
 	} catch (error) {
 		console.error(error);

@@ -35,7 +35,6 @@
 
 	const forceRerender = async () => {
 		const res = await getAllEvents();
-		events = res;
 
 		data = events.map((event) => {
 			let people = {};

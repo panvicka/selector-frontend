@@ -9,7 +9,7 @@
 	import ItemForm from './forms/ItemForm.svelte';
 	import Modal from './general/Modal.svelte';
 	import { onMount } from 'svelte';
-	import { createEvent, getAllEvents, getEventById, updateEvent } from '../api/event';
+	import { createEvent, deleteEvent, getAllEvents, getEventById, updateEvent } from '../api/event';
 
 	export let item;
 
@@ -18,7 +18,10 @@
 	let editEventModalOpened = false;
 
 	onMount(async () => {
+		console.log('fetching all events');
+
 		getAllSelectablePeople();
+		fetchAllItemEvents();
 	});
 
 	const fetchItem = async () => {
@@ -29,6 +32,7 @@
 
 	const fetchAllItemEvents = async () => {
 		itemEvents = await getAllEvents();
+		console.log(itemEvents);
 	};
 
 	const handleUpdateItem = async (event) => {
@@ -51,7 +55,7 @@
 		const res = await createEvent(payload);
 		console.log(res);
 
-		fetchItem();
+		fetchAllItemEvents();
 	};
 
 	let selectablePeople = [];
@@ -74,6 +78,11 @@
 		editEventModalOpened = true;
 	};
 
+	const triggerEventDelete = async (event) => {
+		const res = await deleteEvent(event.detail.eventId);
+		fetchAllItemEvents();
+	};
+
 	const handleUpdateEvent = async (event) => {
 		console.log(event.detail);
 		const res = await updateEvent(event.detail.event._id, {
@@ -83,6 +92,7 @@
 			endDate: event.detail.event.endDate
 		});
 		editItemModalOpened = false;
+		fetchAllItemEvents();
 	};
 </script>
 
@@ -155,4 +165,10 @@
 	</Modal>
 {/if}
 
-<EventTable on:submitEdit={triggerEventEdit} />
+{#if itemEvents.length > 0}
+	<EventTable
+		on:submitEdit={triggerEventEdit}
+		on:submitDelete={triggerEventDelete}
+		eventsToShow={itemEvents}
+	/>
+{/if}

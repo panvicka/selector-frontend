@@ -2,58 +2,22 @@
 	// @ts-nocheck
 
 	import Grid from 'gridjs-svelte';
-	import { h, PluginPosition } from 'gridjs';
+	import { h } from 'gridjs';
 	import 'gridjs/dist/theme/mermaid.css';
-	import { deleteEvent, getAllEvents } from '../api/event';
-	import { onMount } from 'svelte';
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	let data = [];
-
-	// data = [
-	// 	{ name: 'John', email: 'john@example.com' },
-	// 	{ name: 'Mark', email: 'mark@gmail.com' }
-	// ];
-
+	export let eventsToShow = [];
+	let mappedTableData = [];
 	let columns = ['startDate', 'endDate'];
 
-	console.log('alive');
-	console.log(data);
-
-	let events = [];
-	let grid;
-
-	onMount(async () => {
-		await fetch();
-	});
-
-	function submitEdit(eventId) {
-		console.log(eventId);
-		dispatch('submitEdit', {
-			eventId
-		});
-	}
-
-	const handleDeleteEvent = async (eventId) => {
-		console.log(eventId);
-		const res = await deleteEvent(eventId);
-		console.log(res);
-		forceRerender();
-	};
-
-	const forceRerender = async () => {
-		const res = await getAllEvents();
-
-		data = events.map((event) => {
+	let mapData = (events) => {
+		return events.map((event) => {
 			let people = {};
 			event?.item?.memberTitles.forEach((title, index) => {
 				people[title] = event.people?.[index]?.name || '';
 			});
-			console.log(people);
-			console.log(event);
-			console.log(event.endDate ? new Date(event.endDate).toLocaleString().split(',')[0] : '');
 			return {
 				startDate: new Date(event.startDate).toLocaleString().split(',')[0],
 				endDate: event.endDate ? new Date(event.endDate).toLocaleString().split(',')[0] : '',
@@ -61,31 +25,10 @@
 				...people
 			};
 		});
-		grid.updateConfig({ data }).forceRender();
 	};
 
-	const fetch = async () => {
-		const res = await getAllEvents();
-
-		events = res;
-		console.log(events);
-		data = events.map((event) => {
-			let people = {};
-			event?.item?.memberTitles.forEach((title, index) => {
-				people[title] = event.people?.[index]?.name || '';
-			});
-			console.log(people);
-			console.log(event);
-			console.log(event.endDate ? new Date(event.endDate).toLocaleString().split(',')[0] : '');
-			return {
-				startDate: new Date(event.startDate).toLocaleString().split(',')[0],
-				endDate: event.endDate ? new Date(event.endDate).toLocaleString().split(',')[0] : '',
-				id: event._id,
-				...people
-			};
-		});
-		// columns = ['startDate', 'endDate', ...events[5].item.memberTitles];
-		columns = [
+	let mapColumns = (events) => {
+		return [
 			{
 				name: 'id',
 				hidden: false
@@ -114,8 +57,7 @@
 						'button',
 						{
 							onClick: () => {
-								handleDeleteEvent(row.cells[0].data);
-								// alert(`Delete "${row.cells[0].data}" "${row.cells[1].data}"`);
+								submitDelete(row.cells[0].data);
 							}
 						},
 						'Delete'
@@ -123,17 +65,32 @@
 				}
 			}
 		];
-
-		// grid
-		// 	.updateConfig({
-		// 		data
-		// 	})
-		// 	.forceRender();
-		// console.log(data);
 	};
+
+	let grid;
+
+	$: {
+		if (grid) {
+			mappedTableData = mapData(eventsToShow);
+			columns = mapColumns(eventsToShow);
+			grid.updateConfig({ data: mappedTableData, columns: columns }).forceRender();
+		}
+	}
+
+	function submitEdit(eventId) {
+		dispatch('submitEdit', {
+			eventId
+		});
+	}
+
+	function submitDelete(eventId) {
+		dispatch('submitDelete', {
+			eventId
+		});
+	}
 </script>
 
-<Grid bind:instance={grid} {data} {columns} sort={true} />
+<Grid bind:instance={grid} data={mappedTableData} {columns} sort={true} />
 
 <style global>
 	/* @import 'https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css'; */

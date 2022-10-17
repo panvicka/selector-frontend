@@ -9,28 +9,33 @@
 	import ItemForm from './forms/ItemForm.svelte';
 	import Modal from './general/Modal.svelte';
 	import { onMount } from 'svelte';
-	import { createEvent } from '../api/event';
-
-	let createNewEventModalOpened = false;
+	import { createEvent, getAllEvents, getEventById, updateEvent } from '../api/event';
 
 	export let item;
+
+	let newEventModalOpened = false;
+	let editItemModalOpened = false;
+	let editEventModalOpened = false;
 
 	onMount(async () => {
 		getAllSelectablePeople();
 	});
 
-	let letShowEditModal = false;
-
-	const handleEdit = async (event) => {
-		console.log(event.detail);
-		const res = await updateItem(item._id, event.detail.item);
-		fetch();
-		letShowEditModal = false;
+	const fetchItem = async () => {
+		item = await getItemById(item._id);
 	};
 
-	const fetch = async () => {
-		const res = await getItemById(item._id);
-		item = res;
+	let itemEvents = [];
+
+	const fetchAllItemEvents = async () => {
+		itemEvents = await getAllEvents();
+	};
+
+	const handleUpdateItem = async (event) => {
+		console.log(event.detail);
+		const res = await updateItem(item._id, event.detail.item);
+		fetchItem();
+		editItemModalOpened = false;
 	};
 
 	const handleCreateNewEvent = async (event) => {
@@ -46,7 +51,7 @@
 		const res = await createEvent(payload);
 		console.log(res);
 
-		fetch();
+		fetchItem();
 	};
 
 	let selectablePeople = [];
@@ -58,6 +63,26 @@
 				label: person.name
 			};
 		});
+	};
+
+	let eventToEdit;
+	const triggerEventEdit = async (event) => {
+		console.log(event.detail);
+		const res = await getEventById(event.detail.eventId);
+		console.log(res);
+		eventToEdit = res;
+		editEventModalOpened = true;
+	};
+
+	const handleUpdateEvent = async (event) => {
+		console.log(event.detail);
+		const res = await updateEvent(event.detail.event._id, {
+			item: event.detail.event.item._id,
+			people: event.detail.event.people,
+			startDate: event.detail.event.startDate,
+			endDate: event.detail.event.endDate
+		});
+		editItemModalOpened = false;
 	};
 </script>
 
@@ -73,44 +98,61 @@
 
 <span
 	on:click={() => {
-		letShowEditModal = true;
+		editItemModalOpened = true;
 	}}
 	><SettingsIcon />
 </span>
 
 <button
 	on:click={() => {
-		createNewEventModalOpened = true;
+		newEventModalOpened = true;
 	}}>add new event</button
 >
-{#if createNewEventModalOpened}
+{#if newEventModalOpened}
 	<Modal>
 		<EventForm
 			title={'Create new event'}
 			peopleToSelectFrom={selectablePeople}
 			event={{ item }}
 			on:close={() => {
-				createNewEventModalOpened = false;
+				newEventModalOpened = false;
 			}}
 			on:submit={(event) => {
 				handleCreateNewEvent(event);
-				createNewEventModalOpened = false;
+				newEventModalOpened = false;
 			}}
 		/>
 	</Modal>
 {/if}
 
-{#if letShowEditModal}
+{#if editItemModalOpened}
 	<Modal>
 		<ItemForm
 			title={'edit item'}
 			{item}
-			on:submit={handleEdit}
+			on:submit={handleUpdateItem}
 			on:close={() => {
-				letShowEditModal = false;
+				editItemModalOpened = false;
 			}}
 		/>
 	</Modal>
 {/if}
 
-<EventTable />
+{#if editEventModalOpened}
+	<Modal>
+		<EventForm
+			title={'Edit event'}
+			peopleToSelectFrom={selectablePeople}
+			event={eventToEdit}
+			on:close={() => {
+				editEventModalOpened = false;
+			}}
+			on:submit={(event) => {
+				handleUpdateEvent(event);
+				editEventModalOpened = false;
+			}}
+		/>
+	</Modal>
+{/if}
+
+<EventTable on:submitEdit={triggerEventEdit} />

@@ -7,6 +7,9 @@
 	import { deleteEvent, getAllEvents } from '../api/event';
 	import { onMount } from 'svelte';
 
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
 	let data = [];
 
 	// data = [
@@ -25,6 +28,13 @@
 	onMount(async () => {
 		await fetch();
 	});
+
+	function submitEdit(eventId) {
+		console.log(eventId);
+		dispatch('submitEdit', {
+			eventId
+		});
+	}
 
 	const handleDeleteEvent = async (eventId) => {
 		console.log(eventId);
@@ -90,7 +100,7 @@
 						'button',
 						{
 							onClick: () => {
-								alert(`Editing "${row.cells[0].data}" "${row.cells[1].data}"`);
+								submitEdit(row.cells[0].data);
 							}
 						},
 						'Edit'

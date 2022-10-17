@@ -2,6 +2,7 @@
 	import TextField from '../general/textField.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import Select from 'svelte-select';
+	import DateInput from '../general/DateInput.svelte';
 	const dispatch = createEventDispatcher();
 
 	export let peopleToSelectFrom = [];
@@ -19,6 +20,12 @@
 		people: []
 	};
 
+	let startDate = event.startDate;
+	let endDate = event.endDate ? event.endDate : '';
+
+	console.log('passed event');
+	console.log(event);
+
 	function close() {
 		dispatch('close');
 	}
@@ -26,6 +33,9 @@
 	function submit() {
 		event.people = selectedPeople;
 		console.log('submitting');
+		event.startDate = startDate;
+		event.endDate = endDate;
+		console.log(event);
 		dispatch('submit', {
 			event
 		});
@@ -40,23 +50,17 @@
 
 <h1>{title}</h1>
 
-Start Date<input
-	type="date"
-	class="input input-bordered input-primary w-full max-w-xs"
-	bind:value={event.startDate}
-/><br />
+Start Date
+<DateInput bind:date={startDate} />
 End Date
-<input
-	type="date"
-	class="input input-bordered input-primary w-full max-w-xs"
-	bind:value={event.endDate}
-/><br />
+<DateInput bind:date={endDate} />
 
 {#each event.item.memberTitles as member, i}
 	{member}
 	<Select
 		items={peopleToSelectFrom}
 		placeholder={'Select..'}
+		value={event?.people?.[i]?.name || null}
 		on:select={(e) => handleSelect(e, i)}
 	/>
 {/each}

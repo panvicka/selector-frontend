@@ -9,7 +9,7 @@
 	import ItemForm from './forms/ItemForm.svelte';
 	import Modal from './general/Modal.svelte';
 	import { onMount } from 'svelte';
-	import { createEvent, deleteEvent, getAllEvents, getEventById, updateEvent } from '../api/event';
+	import { createEvent, deleteEvent, getAllEvents, getAllEventsForItem, getEventById, updateEvent } from '../api/event';
 
 	export let item;
 
@@ -29,7 +29,7 @@
 	let itemEvents = [];
 
 	const fetchAllItemEvents = async () => {
-		itemEvents = await getAllEvents();
+		itemEvents = await getAllEventsForItem(item._id);
 	};
 
 	const handleUpdateItem = async (event) => {

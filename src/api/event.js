@@ -9,6 +9,15 @@ export const getAllEvents = async () => {
 	}
 };
 
+export const getAllEventsForItem = async (itemId) => {
+	try {
+		const response = await Api.get(`/rotationEvents/get/?item=${itemId}`);
+		return response.rotationEvents;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const deleteEvent = async (eventId) => {
 	try {
 		const response = await Api.delete(`/rotationEvents/delete/${eventId}`);

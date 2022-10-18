@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import dayjs from 'dayjs';
 
 	export let format = 'YYYY-MM-DD';
@@ -14,8 +13,4 @@
 	$: output(internal);
 </script>
 
-<input
-	type="date"
-	class="input input-bordered input-primary w-full max-w-xs"
-	bind:value={internal}
-/>
+<input type="date" class="input input-bordered input-primary w-full " bind:value={internal} />

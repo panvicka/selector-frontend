@@ -2,9 +2,9 @@
 </script>
 
 <div class="relative z-10 prose" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-	<div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+	<div class="fixed inset-0   bg-opacity-100 transition-opacity" />
 
-	<div class="fixed z-10   inset-0 overflow-y-auto">
+	<div class="fixed z-10   inset-0  ">
 		<div
 			class="flex bg-gray-900 items-center sm:items-center justify-center min-h-full p-4 text-center sm:p-0"
 		>

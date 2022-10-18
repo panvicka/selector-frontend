@@ -18,8 +18,6 @@
 	let editEventModalOpened = false;
 
 	onMount(async () => {
-		console.log('fetching all events');
-
 		getAllSelectablePeople();
 		fetchAllItemEvents();
 	});
@@ -32,28 +30,23 @@
 
 	const fetchAllItemEvents = async () => {
 		itemEvents = await getAllEvents();
-		console.log(itemEvents);
 	};
 
 	const handleUpdateItem = async (event) => {
-		console.log(event.detail);
 		const res = await updateItem(item._id, event.detail.item);
 		fetchItem();
 		editItemModalOpened = false;
 	};
 
 	const handleCreateNewEvent = async (event) => {
-		console.log(event);
 		const payload = {
 			item: event.detail.event.item._id,
 			people: event.detail.event.people,
 			startDate: event.detail.event.startDate,
 			endDate: event.detail.event.endDate
 		};
-		console.log(payload);
-		console.log('creating event');
+
 		const res = await createEvent(payload);
-		console.log(res);
 
 		fetchAllItemEvents();
 	};
@@ -71,9 +64,7 @@
 
 	let eventToEdit;
 	const triggerEventEdit = async (event) => {
-		console.log(event.detail);
 		const res = await getEventById(event.detail.eventId);
-		console.log(res);
 		eventToEdit = res;
 		editEventModalOpened = true;
 	};
@@ -84,7 +75,6 @@
 	};
 
 	const handleUpdateEvent = async (event) => {
-		console.log(event.detail);
 		const res = await updateEvent(event.detail.event._id, {
 			item: event.detail.event.item._id,
 			people: event.detail.event.people,

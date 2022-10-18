@@ -8,6 +8,7 @@
 	}
 
 	function onSubmit() {
+		console.log(item);
 		dispatch('submit', {
 			item
 		});
@@ -17,8 +18,6 @@
 		name: '',
 		memberTitles: []
 	};
-
-	console.log(item);
 
 	export let title = '';
 

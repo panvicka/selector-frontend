@@ -31,7 +31,7 @@
 		return [
 			{
 				name: 'id',
-				hidden: false
+				hidden: true
 			},
 			'startDate',
 			'endDate',
@@ -88,10 +88,39 @@
 			eventId
 		});
 	}
+	const className = {
+		container: 'event-table'
+	};
 </script>
 
-<Grid bind:instance={grid} data={mappedTableData} {columns} sort={true} />
+<Grid bind:instance={grid} data={mappedTableData} {columns} sort={true} {className} />
 
 <style global>
 	/* @import 'https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css'; */
+
+	.event-table tr:hover td {
+		background: hsl(var(--nf));
+	}
+
+	.event-table td {
+		background: hsl(var(--n));
+		color: hsl(var(--bc));
+		border-color: hsl(var(--p));
+	}
+
+	.event-table th {
+		background: hsl(var(--n));
+		color: hsl(var(--p)) !important;
+	}
+
+	.gridjs-table {
+		border: none !important;
+		width: 100%;
+	}
+	.gridjs-wrapper {
+		border: none;
+		width: 80%;
+		max-width: 900px;
+		margin: 0 auto;
+	}
 </style>

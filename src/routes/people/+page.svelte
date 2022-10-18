@@ -1,6 +1,7 @@
 <script>
 	import { getAllPeople } from '../../api/people';
 	import { onMount } from 'svelte';
+	import PersonCard from '../../components/personCard.svelte';
 
 	let people = [];
 
@@ -22,6 +23,6 @@
 
 <ul>
 	{#each people as person}
-		<li>{person.name}</li>
+		<PersonCard {person} />
 	{/each}
 </ul>

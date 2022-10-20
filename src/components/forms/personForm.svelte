@@ -8,10 +8,13 @@
 	let itemCheckStates = [];
 	let stringItemArray = [];
 	export let allItems = [];
+
 	export let person = {
 		name: '',
 		itemsCanBeAttended: []
 	};
+
+	console.log(person);
 
 	onMount(async () => {
 		itemCheckStates = allItems.map((item) => {

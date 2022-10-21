@@ -1,93 +1,35 @@
 <script>
-	import { getAllPeople, getAllPeopleByItem } from '../../api/people';
-	import { SettingsIcon } from 'svelte-feather-icons';
-
-	import { getItemById, updateItem } from '../../api/item';
 	import EventTable from '../eventTable.svelte';
 	import EventForm from '../forms/eventForm.svelte';
-	import ItemForm from '../forms/ItemForm.svelte';
 	import Modal from '../general/Modal.svelte';
 	import { onMount } from 'svelte';
-	import {
-		createEvent,
-		deleteEvent,
-		getAllEvents,
-		getAllEventsForItem,
-		getEventById,
-		updateEvent
-	} from '../../api/event';
+	import { getAllEventsForItem, getEventById } from '../../api/event';
 	import PeopleTable from '../people/peopleTable.svelte';
+	import { getAllSelectablePeople } from '../people/peopleHandlerFunctions';
+	import {
+		handleCreateNewEvent,
+		handleUpdateEvent,
+		handleDeleteEvent
+	} from '../events/eventHandlerFuntions';
+	import ConfirmAction from '../general/ConfirmAction.svelte';
 
 	export let item;
 
-	let newEventModalOpened = false;
-	let editItemModalOpened = false;
-	let editEventModalOpened = false;
-
+	let itemEvents = [];
 	let selectablePeople = [];
+	let workingEventReference;
+
+	let showCreateEventModalOpened = false;
+	let showEditModalOpened = false;
+	let showDeleteEventModal = false;
+
 	onMount(async () => {
-		getAllSelectablePeople();
+		selectablePeople = await getAllSelectablePeople(item._id);
 		fetchAllItemEvents();
 	});
 
-	const fetchItem = async () => {
-		item = await getItemById(item._id);
-	};
-
-	let itemEvents = [];
-
 	const fetchAllItemEvents = async () => {
 		itemEvents = await getAllEventsForItem(item._id);
-	};
-
-	const handleCreateNewEvent = async (event) => {
-		const payload = {
-			item: event.detail.event.item._id,
-			people: event.detail.event.people,
-			startDate: event.detail.event.startDate,
-			endDate: event.detail.event.endDate
-		};
-
-		const res = await createEvent(payload);
-
-		fetchAllItemEvents();
-	};
-
-	
-	const getAllSelectablePeople = async () => {
-		console.log(item._id);
-		const res = await getAllPeopleByItem(item._id);
-		selectablePeople = res.map((person) => {
-			return {
-				value: person._id,
-				label: person.name
-			};
-		});
-		console.log("selectrable people")
-		console.log(selectablePeople);
-	};
-
-	let eventToEdit;
-	const triggerEventEdit = async (event) => {
-		const res = await getEventById(event.detail.eventId);
-		eventToEdit = res;
-		editEventModalOpened = true;
-	};
-
-	const triggerEventDelete = async (event) => {
-		const res = await deleteEvent(event.detail.eventId);
-		fetchAllItemEvents();
-	};
-
-	const handleUpdateEvent = async (event) => {
-		const res = await updateEvent(event.detail.event._id, {
-			item: event.detail.event.item._id,
-			people: event.detail.event.people,
-			startDate: event.detail.event.startDate,
-			endDate: event.detail.event.endDate
-		});
-		editItemModalOpened = false;
-		fetchAllItemEvents();
 	};
 </script>
 
@@ -103,47 +45,72 @@
 
 <button
 	on:click={() => {
-		newEventModalOpened = true;
+		showCreateEventModalOpened = true;
 	}}>add new event</button
 >
-{#if newEventModalOpened}
+{#if showCreateEventModalOpened}
 	<Modal>
 		<EventForm
 			title={'Create new event'}
 			peopleToSelectFrom={selectablePeople}
 			event={{ item }}
 			on:close={() => {
-				newEventModalOpened = false;
+				showCreateEventModalOpened = false;
 			}}
 			on:submit={(event) => {
-				handleCreateNewEvent(event);
-				newEventModalOpened = false;
+				handleCreateNewEvent(event.detail.event, fetchAllItemEvents);
+				showCreateEventModalOpened = false;
 			}}
 		/>
 	</Modal>
 {/if}
 
-{#if editEventModalOpened}
+{#if showEditModalOpened}
 	<Modal>
 		<EventForm
 			title={'Edit event'}
 			peopleToSelectFrom={selectablePeople}
-			event={eventToEdit}
+			event={workingEventReference}
 			on:close={() => {
-				editEventModalOpened = false;
+				showEditModalOpened = false;
 			}}
 			on:submit={(event) => {
-				handleUpdateEvent(event);
-				editEventModalOpened = false;
+				handleUpdateEvent(event.detail.event, fetchAllItemEvents);
+				showEditModalOpened = false;
 			}}
 		/>
+	</Modal>
+{/if}
+
+{#if showDeleteEventModal}
+	<Modal>
+		<ConfirmAction
+			on:cancel={() => {
+				showDeleteEventModal = false;
+			}}
+			on:ok={() => {
+				handleDeleteEvent(workingEventReference, fetchAllItemEvents);
+				showDeleteEventModal = false;
+			}}
+		>
+			<svelte:fragment slot="title">Delete confirmation</svelte:fragment>
+			<span slot="content"
+				>Do you really want to delete this event? You can not reverse this action.
+			</span>
+		</ConfirmAction>
 	</Modal>
 {/if}
 
 {#if itemEvents.length > 0}
 	<EventTable
-		on:submitEdit={triggerEventEdit}
-		on:submitDelete={triggerEventDelete}
+		on:submitEdit={async (event) => {
+			workingEventReference = await getEventById(event.detail.eventId);
+			showEditModalOpened = true;
+		}}
+		on:submitDelete={async (event) => {
+			workingEventReference = await getEventById(event.detail.eventId);
+			showDeleteEventModal = true;
+		}}
 		eventsToShow={itemEvents}
 	/>
 {/if}

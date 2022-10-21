@@ -1,15 +1,21 @@
 <script>
-	import { getAllPeople } from '../api/people';
+	import { getAllPeople } from '../../api/people';
 	import { SettingsIcon } from 'svelte-feather-icons';
 
-	import { getItemById, updateItem } from '../api/item';
-	import EventCreator from './eventCreator.svelte';
-	import EventTable from './eventTable.svelte';
-	import EventForm from './forms/eventForm.svelte';
-	import ItemForm from './forms/ItemForm.svelte';
-	import Modal from './general/Modal.svelte';
+	import { getItemById, updateItem } from '../../api/item';
+	import EventTable from '../eventTable.svelte';
+	import EventForm from '../forms/eventForm.svelte';
+	import ItemForm from '../forms/ItemForm.svelte';
+	import Modal from '../general/Modal.svelte';
 	import { onMount } from 'svelte';
-	import { createEvent, deleteEvent, getAllEvents, getAllEventsForItem, getEventById, updateEvent } from '../api/event';
+	import {
+		createEvent,
+		deleteEvent,
+		getAllEvents,
+		getAllEventsForItem,
+		getEventById,
+		updateEvent
+	} from '../../api/event';
 
 	export let item;
 

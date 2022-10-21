@@ -20,6 +20,8 @@ export const deleteItem = async (itemId) => {
 
 export const updateItem = async (itemId, payload) => {
 	try {
+		console.log(payload);
+
 		const response = await Api.patch(`/rotationItems/update/${itemId}`, payload);
 		console.log(response);
 		return response.rotationItemId;

@@ -1,5 +1,5 @@
 <script>
-	import { getAllPeople } from '../../api/people';
+	import { getAllPeople, getAllPeopleByItem } from '../../api/people';
 	import { SettingsIcon } from 'svelte-feather-icons';
 
 	import { getItemById, updateItem } from '../../api/item';
@@ -16,6 +16,7 @@
 		getEventById,
 		updateEvent
 	} from '../../api/event';
+	import PeopleTable from '../people/peopleTable.svelte';
 
 	export let item;
 
@@ -23,6 +24,7 @@
 	let editItemModalOpened = false;
 	let editEventModalOpened = false;
 
+	let selectablePeople = [];
 	onMount(async () => {
 		getAllSelectablePeople();
 		fetchAllItemEvents();
@@ -38,12 +40,6 @@
 		itemEvents = await getAllEventsForItem(item._id);
 	};
 
-	const handleUpdateItem = async (event) => {
-		const res = await updateItem(item._id, event.detail.item);
-		fetchItem();
-		editItemModalOpened = false;
-	};
-
 	const handleCreateNewEvent = async (event) => {
 		const payload = {
 			item: event.detail.event.item._id,
@@ -57,15 +53,18 @@
 		fetchAllItemEvents();
 	};
 
-	let selectablePeople = [];
+	
 	const getAllSelectablePeople = async () => {
-		const res = await getAllPeople();
+		console.log(item._id);
+		const res = await getAllPeopleByItem(item._id);
 		selectablePeople = res.map((person) => {
 			return {
 				value: person._id,
 				label: person.name
 			};
 		});
+		console.log("selectrable people")
+		console.log(selectablePeople);
 	};
 
 	let eventToEdit;
@@ -102,13 +101,6 @@
 	</ul>
 </div>
 
-<span
-	on:click={() => {
-		editItemModalOpened = true;
-	}}
-	><SettingsIcon />
-</span>
-
 <button
 	on:click={() => {
 		newEventModalOpened = true;
@@ -126,19 +118,6 @@
 			on:submit={(event) => {
 				handleCreateNewEvent(event);
 				newEventModalOpened = false;
-			}}
-		/>
-	</Modal>
-{/if}
-
-{#if editItemModalOpened}
-	<Modal>
-		<ItemForm
-			title={'edit item'}
-			{item}
-			on:submit={handleUpdateItem}
-			on:close={() => {
-				editItemModalOpened = false;
 			}}
 		/>
 	</Modal>
@@ -167,4 +146,8 @@
 		on:submitDelete={triggerEventDelete}
 		eventsToShow={itemEvents}
 	/>
+{/if}
+
+{#if selectablePeople.length > 0}
+	<PeopleTable />
 {/if}

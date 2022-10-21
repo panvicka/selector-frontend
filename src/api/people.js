@@ -9,6 +9,15 @@ export const getAllPeople = async () => {
 	}
 };
 
+export const getAllPeopleByItem = async (itemId) => {
+	try {
+		const response = await Api.get(`/person/get/?item=${itemId}`);
+		return response.persons;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const deletePerson = async (personId) => {
 	try {
 		const response = await Api.delete(`/person/delete/${personId}`);

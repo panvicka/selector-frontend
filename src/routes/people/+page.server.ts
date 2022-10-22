@@ -6,9 +6,6 @@ export async function load({ params }) {
 	const res = await fetch(url);
 
 	const data = await res.json();
-    console.log(data)
-	console.log('jednotlivy lidi');
-	console.log(typeof data);
 	if (data) {
 		return data;
 	}

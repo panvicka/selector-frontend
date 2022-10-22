@@ -12,12 +12,14 @@
 		handleDeleteEvent
 	} from '../events/eventHandlerFuntions';
 	import ConfirmAction from '../general/ConfirmAction.svelte';
+	import { getAllPeopleAndRoleCount } from './itemHandlerFunctions';
 
 	export let item;
 
 	let itemEvents = [];
 	let selectablePeople = [];
 	let workingEventReference;
+	let peopleAttendance = {};
 
 	let showCreateEventModalOpened = false;
 	let showEditModalOpened = false;
@@ -25,6 +27,7 @@
 
 	onMount(async () => {
 		selectablePeople = await getAllSelectablePeople(item._id);
+		peopleAttendance = await getAllPeopleAndRoleCount(item._id);
 		fetchAllItemEvents();
 	});
 
@@ -115,6 +118,4 @@
 	/>
 {/if}
 
-{#if selectablePeople.length > 0}
-	<PeopleTable />
-{/if}
+<PeopleTable data={peopleAttendance} />

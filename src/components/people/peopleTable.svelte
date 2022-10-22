@@ -1,1 +1,6 @@
-<div>hi</div>>
+<script>
+	export let data = {};
+	console.log(data);
+</script>
+
+

@@ -24,36 +24,28 @@
 	};
 
 	const handleCreateNewPerson = async (event) => {
-		console.log(event.detail);
 		const res = await createPerson({
 			name: event.detail.name,
 			itemsCanBeAttended: event.detail.itemsCanBeAttended
 		});
-		console.log(res);
 		letShowCreateModal = false;
 		fetchAllPeople();
 	};
 
 	const handleDeletePerson = async (personId) => {
 		const res = await deletePerson(personId);
-		console.log(res);
 		fetchAllPeople();
 		showDeleteModal = false;
 	};
 
 	const handleEditPerson = async (event) => {
-		console.log('data send to edit');
-		console.log(event.detail);
 		const res = await updatePerson(personToBeEdited._id, event.detail);
-		console.log(res);
 		fetchAllPeople();
 		letShowEditModal = false;
 	};
 
 	const triggeredDeletePerson = (event) => {
-		console.log('triggered to be deleted');
 		personToBeDeleted = event.detail.person;
-		console.log(personToBeDeleted);
 		showDeleteModal = true;
 	};
 
@@ -92,8 +84,6 @@
 				on:onEdit={(event) => {
 					letShowEditModal = true;
 					personToBeEdited = event.detail.person;
-					console.log('to be edited');
-					console.log(personToBeEdited);
 				}}
 			/>
 		</div>

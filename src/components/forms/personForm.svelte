@@ -29,7 +29,6 @@
 
 			return itemSummary;
 		});
-		console.log(itemCheckStates);
 	});
 
 	function close() {
@@ -37,7 +36,6 @@
 	}
 
 	function onSubmit() {
-		console.log(person);
 		dispatch('submit', {
 			name: person.name,
 			itemsCanBeAttended: stringItemArray

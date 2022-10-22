@@ -8,8 +8,6 @@
 	}
 
 	function onSubmit() {
-		console.log("submitting stuff")
-		console.log(item);
 		dispatch('submit', {
 			item
 		});

@@ -30,7 +30,6 @@ export const deletePerson = async (personId) => {
 export const updatePerson = async (personId, payload) => {
 	try {
 		const response = await Api.patch(`/person/update/${personId}`, payload);
-		console.log(response);
 		return response.personId;
 	} catch (error) {
 		console.error(error);
@@ -40,7 +39,6 @@ export const updatePerson = async (personId, payload) => {
 export const createPerson = async (payload) => {
 	try {
 		const response = await Api.post(`/person/create/`, payload);
-		console.log(response);
 		return response.personId;
 	} catch (error) {
 		console.error(error);
@@ -50,7 +48,6 @@ export const createPerson = async (payload) => {
 export const getPersonById = async (personId) => {
 	try {
 		const response = await Api.get(`/person/get/${personId}`);
-		console.log(response);
 		return response.personId;
 	} catch (error) {
 		console.error(error);

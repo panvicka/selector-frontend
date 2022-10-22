@@ -1,5 +1,4 @@
-import { createItem, deleteItem, updateItem } from '../../api/item';
-
+import { createItem, deleteItem, getItemPeopleAttendance, updateItem } from '../../api/item';
 
 export const handleCreateNew = async (event, fetchAllFunction) => {
 	await createItem({
@@ -17,4 +16,8 @@ export const handleDeleteItem = async (itemId, fetchAllFunction) => {
 export const handleEditItem = async (event, itemId, fetchAllFunction) => {
 	await updateItem(itemId, event.detail.item);
 	fetchAllFunction();
+};
+
+export const getAllPeopleAndRoleCount = async (itemId) => {
+	return await getItemPeopleAttendance(itemId);
 };

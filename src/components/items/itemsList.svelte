@@ -35,14 +35,11 @@
 				{item}
 				on:onDelete={(event) => {
 					workingItemReference = event.detail.item;
-					console.log(workingItemReference);
 					showDeleteItemModal = true;
 				}}
 				on:onEdit={(event) => {
 					showEditItemModal = true;
 					workingItemReference = event.detail.item;
-					console.log('to be edited');
-					console.log(workingItemReference);
 				}}
 			/>
 		</div>
@@ -51,7 +48,6 @@
 
 <span
 	on:click={(e) => {
-		console.log('hi');
 		showCreateItemModal = true;
 	}}
 	><PlusCircleIcon />

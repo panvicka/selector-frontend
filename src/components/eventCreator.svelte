@@ -20,7 +20,6 @@
 	});
 
 	const fetch = async () => {
-		console.log('runnign');
 		const res = await getAllPeople();
 		people = res.map((person) => {
 			return {
@@ -28,12 +27,10 @@
 				label: person.name
 			};
 		});
-		console.log(people);
 	};
 
 	export let membersTitles = ['main', 'support'];
 	export let itemId;
-	console.log('item ID', itemId);
 	let selected;
 	let value = null;
 	let people = [];

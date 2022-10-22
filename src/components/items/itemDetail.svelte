@@ -19,7 +19,6 @@
 	let itemEvents = [];
 	let selectablePeople = [];
 	let workingEventReference;
-	let peopleAttendance = {};
 
 	let showCreateEventModalOpened = false;
 	let showEditModalOpened = false;
@@ -27,7 +26,6 @@
 
 	onMount(async () => {
 		selectablePeople = await getAllSelectablePeople(item._id);
-		peopleAttendance = await getAllPeopleAndRoleCount(item._id);
 		fetchAllItemEvents();
 	});
 
@@ -118,4 +116,10 @@
 	/>
 {/if}
 
-<PeopleTable data={peopleAttendance} />
+{#await getAllPeopleAndRoleCount(item._id)}
+	<p>loading</p>
+{:then peopleAttendance}
+	<PeopleTable data={peopleAttendance} {item} />
+{:catch error}
+	<p style="color: red">{error.message}</p>
+{/await}

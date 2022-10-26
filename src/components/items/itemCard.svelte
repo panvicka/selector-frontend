@@ -21,9 +21,15 @@
 >
 	<a slot="title" href={`items/${item._id}`}>{item.name}</a>
 
-	<ul slot="content">
+	<div slot="content">
 		{#each item.memberTitles as memberTitle}
-			<li>{memberTitle}</li>
+			<div class="badge badge-ghost">{memberTitle}</div>
 		{/each}
-	</ul>
+	</div>
 </Card>
+
+<style> 
+.badge {
+	margin: 0 1em 0 0;
+}
+</style>

@@ -28,7 +28,7 @@
 	<title>Index page</title>
 </svelte:head>
 
-<div class="grid grid-cols-4">
+<div class="grid grid-cols-2 gap-7">
 	{#each items as item}
 		<div>
 			<ItemCard
@@ -102,3 +102,6 @@
 		/>
 	</Modal>
 {/if}
+
+
+ 

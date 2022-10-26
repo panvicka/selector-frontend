@@ -2,7 +2,7 @@
 	import Grid from 'gridjs-svelte';
 	import { h } from 'gridjs';
 	import 'gridjs/dist/theme/mermaid.css';
-	import { arrow } from '@popperjs/core';
+	import dayjs from 'dayjs';
 
 	export let data = {};
 	export let item = {};
@@ -14,7 +14,14 @@
 	let columns;
 
 	let mapColumns = (item) => {
-		return ['name', ...item.memberTitles];
+		let dateColumns = [];
+		item.memberTitles.forEach((title) => {
+			dateColumns.push(`${title}`);
+			dateColumns.push(`lastTimeIn${title}`);
+		});
+
+ 
+		return ['name', ...dateColumns];
 	};
 
 	const test = {
@@ -59,14 +66,25 @@
 			console.log(key);
 			data[key].forEach((roleAttendance) => {
 				const position = findKeyPositionInArray([...tableData], 'name', roleAttendance.name);
+				const allDates = roleAttendance.dates.map((date) => {
+					return dayjs(date).format('DD/MM/YYYY');
+				});
 				if (position !== -1) {
 					tableData[position][key] = roleAttendance.attended;
+ 					tableData[position][`lastTimeIn${key}`] = roleAttendance.latestDate ? dayjs(roleAttendance.latestDate).format(
+						'DD/MM/YYYY'
+					) : "";
 				} else {
-					tableData.push({ name: roleAttendance.name, [key]: roleAttendance.attended });
+					tableData.push({
+						name: roleAttendance.name,
+						[key]: roleAttendance.attended,
+ 
+						[`lastTimeIn${key}`]: roleAttendance.latestDate ? dayjs(roleAttendance.latestDate).format('DD/MM/YYYY') : "",
+					});
 				}
 			});
 		}
-		console.log();
+		console.log(tableData);
 
 		return tableData;
 	};
@@ -88,3 +106,37 @@
 </script>
 
 <Grid bind:instance={grid} data={mappedTableData} {columns} sort={true} {className} />
+
+<style global>
+	/* @import 'https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css'; */
+
+	td.gridjs-td {
+		word-break: break-all;
+	}
+
+	.people-table tr:hover td {
+		background: hsl(var(--nf));
+	}
+
+	.people-table td {
+		background: hsl(var(--n));
+		color: hsl(var(--bc));
+		border-color: hsl(var(--p));
+	}
+
+	.people-table th {
+		background: hsl(var(--n));
+		color: hsl(var(--p)) !important;
+	}
+
+	.gridjs-table {
+		border: none !important;
+		width: 100%;
+	}
+	.gridjs-wrapper {
+		border: none;
+		width: 80%;
+		max-width: 900px;
+		margin: 0 auto;
+	}
+</style>

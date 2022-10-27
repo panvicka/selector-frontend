@@ -7,6 +7,8 @@
 	import ItemForm from '../forms/ItemForm.svelte';
 	import ConfirmAction from '../general/ConfirmAction.svelte';
 	import { handleCreateNew, handleDeleteItem, handleEditItem } from './itemHandlerFunctions';
+	import { faPlus } from '@fortawesome/free-solid-svg-icons';
+	import Fa from 'svelte-fa';
 
 	let items = [];
 	let workingItemReference = {};
@@ -28,7 +30,17 @@
 	<title>Index page</title>
 </svelte:head>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-9">
+<div class="top prose">
+	<h1>Items</h1>
+	<button
+		class="btn btn-accent"
+		on:click={(e) => {
+			showCreateItemModal = true;
+		}}><Fa size="lg" class="add-new-tracking-icon" icon={faPlus} /> Add new tracking</button
+	>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-9">
 	{#each items as item}
 		<div>
 			<ItemCard
@@ -45,13 +57,6 @@
 		</div>
 	{/each}
 </div>
-
-<span
-	on:click={(e) => {
-		showCreateItemModal = true;
-	}}
-	><PlusCircleIcon />
-</span>
 
 {#if showCreateItemModal}
 	<Modal>
@@ -103,5 +108,20 @@
 	</Modal>
 {/if}
 
+<style>
+	button {
+		margin: 2em;
+		margin-left: 0em;
+	}
 
- 
+	.top {
+		margin-top: 5em;
+	}
+	h1 {
+		margin-bottom: 0;
+	}
+
+	:global(.add-new-tracking-icon) {
+		margin-right: 1em;
+	}
+</style>

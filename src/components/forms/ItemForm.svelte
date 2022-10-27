@@ -25,10 +25,16 @@
 	$: item.memberTitles = membersStringed.split(',');
 </script>
 
-<h1 class="text-accent">{title}</h1>
-<TextField inputLabel={'Name'} inputPlaceholder="Name of the item" bind:textValue={item.name} />
+<h1>{title}</h1>
+<TextField
+	inputLabel={'Name'}
+	styleClass={'input-info'}
+	inputPlaceholder="Name of the item"
+	bind:textValue={item.name}
+/>
 <TextField
 	inputLabel={'Members'}
+	styleClass={'input-info'}
 	inputPlaceholder="Member titles (comma separated)"
 	bind:textValue={membersStringed}
 />
@@ -42,7 +48,6 @@
 	>
 	<button type="button" class="btn btn-outline btn-info" on:click={onSubmit}>Save</button>
 </div>
-
 
 <style>
 	.buttons {

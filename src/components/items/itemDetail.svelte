@@ -13,6 +13,8 @@
 	} from '../events/eventHandlerFuntions';
 	import ConfirmAction from '../general/ConfirmAction.svelte';
 	import { getAllPeopleAndRoleCount } from './itemHandlerFunctions';
+	import { faPlus } from '@fortawesome/free-solid-svg-icons';
+	import Fa from 'svelte-fa';
 
 	export let item;
 
@@ -34,21 +36,27 @@
 	};
 </script>
 
-<div class="grid place-items-center prose">
-	<h1>{item.name}</h1>
+<div class="info">
+	<div class="prose">
+		<h1 class="">Detail of <span class="text-accent">{item.name}</span></h1>
 
-	<ul>
-		{#each item.memberTitles as member}
-			<p>{member}</p>
-		{/each}
-	</ul>
+		<div>
+			{#each item.memberTitles as memberTitle}
+				<div class="badge badge-ghost">{memberTitle}</div>
+			{/each}
+		</div>
+
+		<button
+			class="btn btn-accent"
+			on:click={() => {
+				showCreateEventModalOpened = true;
+			}}><Fa size="lg" class="add-new-tracking-icon" icon={faPlus} /> Add new event</button
+		>
+	</div>
+
+
 </div>
 
-<button
-	on:click={() => {
-		showCreateEventModalOpened = true;
-	}}>add new event</button
->
 {#if showCreateEventModalOpened}
 	<Modal>
 		<EventForm
@@ -123,3 +131,14 @@
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}
+
+<style>
+	.info {
+		margin-top: 5em;
+	}
+
+	button {
+		margin: 2em;
+		margin-left: 0em;
+	}
+</style>

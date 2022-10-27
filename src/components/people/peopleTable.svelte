@@ -135,8 +135,8 @@
 	}
 	.gridjs-wrapper {
 		border: none;
-		width: 80%;
-		max-width: 900px;
+		/* width: 80%;
+		max-width: 900px; */
 		margin: 0 auto;
 	}
 </style>

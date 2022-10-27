@@ -2,6 +2,8 @@
 	export let inputLabel;
 	export let inputPlaceholder;
 	export let textValue;
+
+	export let styleClass = 'input-accent';
 </script>
 
 <label class="label" for={`${inputLabel}-ID`}>
@@ -12,7 +14,7 @@
 	type="text"
 	id={`${inputLabel}-ID`}
 	placeholder={inputPlaceholder || 'Type here'}
-	class="input input-bordered input-accent w-full max-w-xs"
+	class={`input input-bordered ${styleClass} w-full max-w-xs focus:ring-0 focus:ring-offset-0`}
 />
 
 

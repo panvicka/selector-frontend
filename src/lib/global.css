@@ -4,7 +4,8 @@
 
 
 html {
-    max-width: 80ch;
+    width: 80%;
+    max-width: 1400px;
     padding: 1em 1em;
     margin: auto;
     line-height: 1.75;

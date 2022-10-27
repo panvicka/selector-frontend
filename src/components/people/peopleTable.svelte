@@ -3,6 +3,7 @@
 	import { h } from 'gridjs';
 	import 'gridjs/dist/theme/mermaid.css';
 	import dayjs from 'dayjs';
+	import { A } from 'flowbite-svelte';
 
 	export let data = {};
 	export let item = {};
@@ -20,8 +21,36 @@
 			dateColumns.push(`lastTimeIn${title}`);
 		});
 
- 
-		return ['name', ...dateColumns];
+		let mapped = dateColumns.map((i) => {
+			if (i.startsWith('lastTime')) {
+				return {
+					name: i,
+					sort: {
+						compare: (a, b) => {
+							if (!a) return -1;
+							const distantFuture = dayjs('02/10/2060');
+							const dateA = a ? dayjs(a, 'DD.MM.YYYY') : distantFuture;
+							const dateB = b ? dayjs(b, 'DD.MM.YYYY') : distantFuture;
+							if (dateA.isBefore(dateB)) {
+								return 1;
+							} else if (dateB.isBefore(dateA)) {
+								return -1;
+							} else {
+								return 0;
+							}
+						}
+					}
+				};
+			}
+
+			return {
+				name: i,
+				width: '15%'
+			};
+		});
+
+		console.log(mapped);
+		return ['name', ...mapped];
 	};
 
 	const test = {
@@ -59,6 +88,18 @@
 		});
 	};
 
+	function formatDate(date) {
+		var d = new Date(date),
+			month = '' + (d.getMonth() + 1),
+			day = '' + d.getDate(),
+			year = d.getFullYear();
+
+		if (month.length < 2) month = '0' + month;
+		if (day.length < 2) day = '0' + day;
+
+		return [year, month, day].join('-');
+	}
+
 	let mapData = (data) => {
 		let tableData = [];
 
@@ -67,19 +108,21 @@
 			data[key].forEach((roleAttendance) => {
 				const position = findKeyPositionInArray([...tableData], 'name', roleAttendance.name);
 				const allDates = roleAttendance.dates.map((date) => {
-					return dayjs(date).format('DD/MM/YYYY');
+					return formatDate(date);
 				});
 				if (position !== -1) {
 					tableData[position][key] = roleAttendance.attended;
- 					tableData[position][`lastTimeIn${key}`] = roleAttendance.latestDate ? dayjs(roleAttendance.latestDate).format(
-						'DD/MM/YYYY'
-					) : "";
+					tableData[position][`lastTimeIn${key}`] = roleAttendance.latestDate
+						? formatDate(roleAttendance.latestDate)
+						: '';
 				} else {
 					tableData.push({
 						name: roleAttendance.name,
 						[key]: roleAttendance.attended,
- 
-						[`lastTimeIn${key}`]: roleAttendance.latestDate ? dayjs(roleAttendance.latestDate).format('DD/MM/YYYY') : "",
+
+						[`lastTimeIn${key}`]: roleAttendance.latestDate
+							? formatDate(roleAttendance.latestDate)
+							: ''
 					});
 				}
 			});
@@ -121,14 +164,13 @@
 	.people-table td {
 		background: hsl(var(--n));
 		color: hsl(var(--bc));
-		border-color: hsl(var(--nf))
+		border-color: hsl(var(--nf));
 	}
 
 	.people-table th {
 		background: hsl(var(--n));
 		color: hsl(var(--af)) !important;
-		border-color: hsl(var(--nf))
-
+		border-color: hsl(var(--nf));
 	}
 
 	.people-table th:hover {

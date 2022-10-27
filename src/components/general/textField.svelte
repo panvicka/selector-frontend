@@ -12,5 +12,12 @@
 	type="text"
 	id={`${inputLabel}-ID`}
 	placeholder={inputPlaceholder || 'Type here'}
-	class="input input-bordered w-full max-w-xs"
+	class="input input-bordered input-accent w-full max-w-xs"
 />
+
+
+<style>
+input:focus {
+	border: none;
+}
+</style>

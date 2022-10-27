@@ -41,12 +41,15 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fortawesome/free-brands-svg-icons": "^6.2.0",
+		"@fortawesome/free-solid-svg-icons": "^6.2.0",
 		"axios": "^1.1.2",
 		"daisyui": "^2.31.0",
 		"dayjs": "^1.11.5",
 		"feather-icons": "^4.29.0",
 		"gridjs": "^5.1.0",
 		"gridjs-svelte": "^2.1.1",
+		"svelte-fa": "^3.0.3",
 		"svelte-select": "^4.4.7"
 	}
 }

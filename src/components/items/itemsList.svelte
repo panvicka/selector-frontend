@@ -28,7 +28,7 @@
 	<title>Index page</title>
 </svelte:head>
 
-<div class="grid grid-cols-2 gap-7">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-9">
 	{#each items as item}
 		<div>
 			<ItemCard

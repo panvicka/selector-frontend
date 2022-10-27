@@ -53,8 +53,6 @@
 			}}><Fa size="lg" class="add-new-tracking-icon" icon={faPlus} /> Add new event</button
 		>
 	</div>
-
-
 </div>
 
 {#if showCreateEventModalOpened}
@@ -110,6 +108,20 @@
 	</Modal>
 {/if}
 
+<div class="prose">
+	<h2>People</h2>
+</div>
+{#await getAllPeopleAndRoleCount(item._id)}
+	<p>loading</p>
+{:then peopleAttendance}
+	<PeopleTable data={peopleAttendance} {item} />
+{:catch error}
+	<p style="color: red">{error.message}</p>
+{/await}
+
+<div class="prose">
+	<h2>Event List</h2>
+</div>
 {#if itemEvents.length > 0}
 	<EventTable
 		on:submitEdit={async (event) => {
@@ -123,14 +135,6 @@
 		eventsToShow={itemEvents}
 	/>
 {/if}
-
-{#await getAllPeopleAndRoleCount(item._id)}
-	<p>loading</p>
-{:then peopleAttendance}
-	<PeopleTable data={peopleAttendance} {item} />
-{:catch error}
-	<p style="color: red">{error.message}</p>
-{/await}
 
 <style>
 	.info {

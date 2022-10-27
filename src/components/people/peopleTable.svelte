@@ -121,12 +121,19 @@
 	.people-table td {
 		background: hsl(var(--n));
 		color: hsl(var(--bc));
-		border-color: hsl(var(--p));
+		border-color: hsl(var(--nf))
 	}
 
 	.people-table th {
 		background: hsl(var(--n));
-		color: hsl(var(--p)) !important;
+		color: hsl(var(--af)) !important;
+		border-color: hsl(var(--nf))
+
+	}
+
+	.people-table th:hover {
+		background: hsl(var(--n));
+		color: hsl(var(--af)) !important;
 	}
 
 	.gridjs-table {

@@ -102,15 +102,24 @@
 		background: hsl(var(--nf));
 	}
 
+	.event-table {
+		line-height: 1;
+	}
 	.event-table td {
 		background: hsl(var(--n));
 		color: hsl(var(--bc));
-		border-color: hsl(var(--p));
+		border-color: hsl(var(--nf));
 	}
 
 	.event-table th {
 		background: hsl(var(--n));
-		color: hsl(var(--p)) !important;
+		color: hsl(var(--af)) !important;
+		border-color: hsl(var(--nf));
+	}
+
+	.event-table th:hover {
+		background: hsl(var(--n));
+		color: hsl(var(--af)) !important;
 	}
 
 	.gridjs-table {
@@ -119,8 +128,6 @@
 	}
 	.gridjs-wrapper {
 		border: none;
-		/* width: 80%; */
-		/* max-width: 900px; */
 		margin: 0 auto;
 	}
 </style>

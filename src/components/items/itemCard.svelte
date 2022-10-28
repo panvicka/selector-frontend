@@ -7,7 +7,7 @@
 	const dispatch = createEventDispatcher();
 </script>
 
-<Card
+<Card width={400} height={200}
 	on:deleteTrigger={() => {
 		dispatch('onDelete', {
 			item

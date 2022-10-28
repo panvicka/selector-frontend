@@ -1,4 +1,5 @@
 <script lang="typescript">
+	// @ts-nocheck
 	import ItemCard from './itemCard.svelte';
 	import { PlusCircleIcon } from 'svelte-feather-icons';
 	import { onMount } from 'svelte';
@@ -31,7 +32,7 @@
 </svelte:head>
 
 <div class="top prose">
-	<h1>Items</h1>
+	<h1>Tracked items</h1>
 	<button
 		class="btn btn-accent"
 		on:click={(e) => {

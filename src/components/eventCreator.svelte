@@ -1,4 +1,5 @@
 <script>
+	// @ts-nocheck
 	import TextField from './general/textField.svelte';
 	import { Button, Dropdown, DropdownItem, Chevron, Checkbox, Search } from 'flowbite-svelte';
 	import Select from 'svelte-select';

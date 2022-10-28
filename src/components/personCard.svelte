@@ -1,4 +1,5 @@
 <script>
+	// @ts-nocheck
 	import { createEventDispatcher } from 'svelte';
 	import Card from './general/Card.svelte';
 
@@ -7,7 +8,7 @@
 	export let person;
 </script>
 
-<Card
+<Card width={250} height={100}
 	on:deleteTrigger={() => {
 		dispatch('onDelete', {
 			person

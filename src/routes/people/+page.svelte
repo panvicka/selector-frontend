@@ -7,6 +7,8 @@
 	import Modal from '../../components/general/Modal.svelte';
 	import PersonForm from '../../components/forms/personForm.svelte';
 	import ConfirmAction from '../../components/general/ConfirmAction.svelte';
+	import { faPlus } from '@fortawesome/free-solid-svg-icons';
+	import Fa from 'svelte-fa';
 
 	let people = [];
 
@@ -75,7 +77,17 @@
 	</Modal>
 {/if}
 
-<div class="grid grid-cols-4">
+<div class="header prose">
+	<h1>People</h1>
+
+	<button
+		class="btn btn-accent"
+		on:click={(e) => {
+			letShowCreateModal = true;
+		}}><Fa size="lg" class="add-new-person-icon" icon={faPlus} /> Add person</button
+	>
+</div>
+<div class="grid grid-cols-4 gap-5">
 	{#each people as person}
 		<div>
 			<PersonCard
@@ -89,15 +101,6 @@
 		</div>
 	{/each}
 </div>
-
-<h1>People</h1>
-
-<span
-	on:click={(e) => {
-		letShowCreateModal = true;
-	}}
-	><PlusCircleIcon />
-</span>
 
 {#if letShowCreateModal}
 	<Modal>
@@ -125,3 +128,10 @@
 		/>
 	</Modal>
 {/if}
+
+<style>
+	.header {
+		margin-top: 5em;
+		margin-bottom: 2em;
+	}
+</style>

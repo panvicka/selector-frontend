@@ -1,4 +1,5 @@
 <script>
+	// @ts-nocheck
 	import Grid from 'gridjs-svelte';
 	import { h } from 'gridjs';
 	import 'gridjs/dist/theme/mermaid.css';
@@ -155,6 +156,10 @@
 
 	td.gridjs-td {
 		word-break: break-all;
+	}
+
+	.people-table {
+		line-height: 1;
 	}
 
 	.people-table tr:hover td {

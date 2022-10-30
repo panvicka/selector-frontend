@@ -6,6 +6,9 @@
 
 	export let item;
 
+	import * as Icons from '@fortawesome/free-solid-svg-icons';
+	import Fa from 'svelte-fa';
+
 	const dispatch = createEventDispatcher();
 </script>
 
@@ -30,8 +33,13 @@
 			<div class="badge badge-ghost">{memberTitle}</div>
 		{/each}
 		<br /> roles:
+
 		{#each item.roles || [] as role}
-			<div class="badge badge-ghost">{role.name}</div>
+			<div class="tooltip tooltip-info" data-tip={role.description}>
+				<div class="badge badge-ghost">
+					<Fa size="s" class="role-icon" icon={Icons[role.icon]} />{role.name}
+				</div>
+			</div>
 		{/each}
 	</div>
 </Card>

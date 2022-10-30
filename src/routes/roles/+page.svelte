@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { createRole, getAllRoles } from './../../api/roles';
+	import { createRole, getAllRoles, updateRole } from './../../api/roles';
 	import Modal from '../../components/general/Modal.svelte';
 	import RoleForm from '../../components/forms/roleForm.svelte';
 	import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -27,6 +27,12 @@
 		});
 		letShowCreateModal = false;
 		fetchAllRoles();
+	};
+
+	const handleEditRole = async (event) => {
+		const res = await updateRole(roleToBeEdited._id, event.detail);
+		fetchAllRoles();
+		letShowEditModal = false;
 	};
 
 	const triggeredDeleteRole = async (event) => {
@@ -57,10 +63,11 @@
 		<div>
 			<RoleCard
 				{role}
-				on:onDelete={triggeredDeleteRole}
-				on:onEdit={(event) => {
+				on:delete={triggeredDeleteRole}
+				on:edit={(event) => {
 					letShowEditModal = true;
 					roleToBeEdited = event.detail.role;
+					console.log(roleToBeEdited);
 				}}
 			/>
 		</div>
@@ -74,6 +81,19 @@
 			on:submit={handleCreateNewRole}
 			on:close={() => {
 				letShowCreateModal = false;
+			}}
+		/>
+	</Modal>
+{/if}
+
+{#if letShowEditModal}
+	<Modal>
+		<RoleForm
+			title={'create new role'}
+			role={roleToBeEdited}
+			on:submit={handleEditRole}
+			on:close={() => {
+				letShowEditModal = false;
 			}}
 		/>
 	</Modal>

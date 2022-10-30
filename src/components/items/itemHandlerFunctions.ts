@@ -3,7 +3,8 @@ import { createItem, deleteItem, getItemPeopleAttendance, updateItem } from '../
 export const handleCreateNew = async (event, fetchAllFunction) => {
 	await createItem({
 		name: event.detail.item.name,
-		memberTitles: event.detail.item.memberTitles
+		memberTitles: event.detail.item.memberTitles,
+		roles: event.detail.item.roles
 	});
 	fetchAllFunction();
 };

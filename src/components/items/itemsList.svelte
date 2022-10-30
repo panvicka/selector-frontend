@@ -9,8 +9,10 @@
 	import { handleCreateNew, handleDeleteItem, handleEditItem } from './itemHandlerFunctions';
 	import { faPlus } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
+	import { getAllRoles } from '../../api/roles';
 
 	let items = [];
+	let allRoles = [];
 	let workingItemReference = {};
 
 	onMount(async () => {
@@ -19,6 +21,8 @@
 
 	const fetch = async () => {
 		items = await getAllItems();
+		allRoles = await getAllRoles();
+		console.log(allRoles);
 	};
 
 	let showCreateItemModal = false;
@@ -62,6 +66,7 @@
 	<Modal>
 		<ItemForm
 			title={'create new item'}
+			{allRoles}
 			on:submit={(event) => {
 				handleCreateNew(event, fetch);
 				showCreateItemModal = false;
@@ -97,6 +102,7 @@
 		<ItemForm
 			title={'edit Item'}
 			item={workingItemReference}
+			{allRoles}
 			on:submit={(event) => {
 				handleEditItem(event, workingItemReference._id, fetch);
 				showEditItemModal = false;

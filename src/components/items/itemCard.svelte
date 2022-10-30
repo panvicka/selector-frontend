@@ -1,5 +1,5 @@
 <script>
-// @ts-nocheck
+	// @ts-nocheck
 
 	import { createEventDispatcher } from 'svelte';
 	import Card from '../general/Card.svelte';
@@ -9,7 +9,9 @@
 	const dispatch = createEventDispatcher();
 </script>
 
-<Card width={400} height={200}
+<Card
+	width={400}
+	height={200}
 	on:deleteTrigger={() => {
 		dispatch('onDelete', {
 			item
@@ -27,11 +29,15 @@
 		{#each item.memberTitles as memberTitle}
 			<div class="badge badge-ghost">{memberTitle}</div>
 		{/each}
+		<br /> roles:
+		{#each item.roles || [] as role}
+			<div class="badge badge-ghost">{role.name}</div>
+		{/each}
 	</div>
 </Card>
 
-<style> 
-.badge {
-	margin: 0 1em 0 0;
-}
+<style>
+	.badge {
+		margin: 0 1em 0 0;
+	}
 </style>

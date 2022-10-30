@@ -1,4 +1,5 @@
 <script>
+	// @ts-nocheck
 	import dayjs from 'dayjs';
 
 	export let format = 'YYYY-MM-DD';
@@ -13,4 +14,4 @@
 	$: output(internal);
 </script>
 
-<input type="date" class="input input-bordered input-primary w-full " bind:value={internal} />
+<input type="date" class="input input-bordered input-primary w-full focus:ring-0 focus:ring-offset-0" bind:value={internal} />

@@ -1,7 +1,6 @@
 <script lang="typescript">
 	// @ts-nocheck
 	import ItemCard from './itemCard.svelte';
-	import { PlusCircleIcon } from 'svelte-feather-icons';
 	import { onMount } from 'svelte';
 	import { getAllItems } from '../../api/item';
 	import Modal from '../general/Modal.svelte';

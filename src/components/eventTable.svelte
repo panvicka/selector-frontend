@@ -93,7 +93,14 @@
 	};
 </script>
 
-<Grid bind:instance={grid} data={mappedTableData} {columns} sort={true} {className} />
+<Grid
+	bind:instance={grid}
+	data={mappedTableData}
+	{columns}
+	pagination={true}
+	sort={true}
+	{className}
+/>
 
 <style global>
 	/* @import 'https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css'; */
@@ -118,6 +125,17 @@
 	}
 
 	.event-table th:hover {
+		background: hsl(var(--n));
+		color: hsl(var(--af)) !important;
+	}
+
+	.event-table .gridjs-footer {
+		background: hsl(var(--n));
+		color: hsl(var(--af)) !important;
+		border: none;
+	}
+
+	.event-table .gridjs-pagination {
 		background: hsl(var(--n));
 		color: hsl(var(--af)) !important;
 	}

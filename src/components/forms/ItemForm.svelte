@@ -1,4 +1,5 @@
 <script>
+	// @ts-nocheck
 	import TextField from '../general/textField.svelte';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();

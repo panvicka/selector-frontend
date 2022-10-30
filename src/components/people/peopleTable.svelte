@@ -1,10 +1,8 @@
 <script>
 	// @ts-nocheck
 	import Grid from 'gridjs-svelte';
-	import { h } from 'gridjs';
 	import 'gridjs/dist/theme/mermaid.css';
 	import dayjs from 'dayjs';
-	import { A } from 'flowbite-svelte';
 
 	export let data = {};
 	export let item = {};

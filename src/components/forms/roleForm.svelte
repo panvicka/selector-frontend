@@ -1,11 +1,14 @@
 <script>
 	// @ts-nocheck
+	import TextInput from '../general/textInput.svelte';
 	import TextField from '../general/textField.svelte';
+
 	import { createEventDispatcher } from 'svelte';
 
 	import * as Icons from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
 	import Select from 'svelte-select';
+	import SelectDropdown from '../general/SelectDropdown.svelte';
 
 	const dispatch = createEventDispatcher();
 
@@ -25,7 +28,7 @@
 		dispatch('submit', {
 			name: role.name,
 			description: role.description,
-			icon: role.icon
+			icon: selectedIcon
 		});
 	}
 
@@ -43,31 +46,38 @@
 	console.log(selectableIcons);
 
 	let selectedIcon = role.icon || '';
-	const handleSelect = (e) => {
-		console.log(e.detail.value);
-		selectedIcon = e.detail.value;
+	const handleSelect = (event) => {
+		console.log('getting');
+		console.log(event);
+		selectedIcon = event.detail.selected.value;
 	};
 </script>
 
 <h1>{title}</h1>
-<TextField inputLabel={'Name'} inputPlaceholder="Name" bind:textValue={role.name} />
+<TextInput inputLabel={'Name'} inputPlaceholder="Name" bind:textValue={role.name} />
 <TextField
 	inputLabel={'Description'}
-	inputPlaceholder="Description"
+	inputPlaceholder="Write the description here"
 	bind:textValue={role.description}
 />
-<!-- <TextField inputLabel={'Icon'} inputPlaceholder="Icon" bind:textValue={role.icon} /> -->
 
 <div class="themed-select item">
-	Icon
+	Icon (https://fontawesome.com/search?o=r&m=free)
 	<Fa size="lg" class="role-icon" icon={Icons[selectedIcon]} />
 
-	<Select
+	<SelectDropdown
 		items={selectableIcons}
 		placeholder={'Select..'}
-		value={null}
-		on:select={(e) => handleSelect(e)}
+		value={selectedIcon}
+		on:dropdownSelect={handleSelect}
 	/>
+
+	<!-- <Select
+		items={selectableIcons}
+		placeholder={'Select..'}
+		value={selectedIcon}
+		on:select={(e) => handleSelect(e)}
+	/> -->
 </div>
 
 <div>
@@ -93,5 +103,6 @@
 		--itemIsActiveBG: #641ae6;
 		--itemHoverBG: #171a20;
 		--height: 50px;
+		--listMaxHeight: 200px;
 	}
 </style>

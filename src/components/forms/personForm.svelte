@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-	import TextField from '../general/textField.svelte';
+	import TextInput from '../general/textInput.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { onMount } from 'svelte';
 
@@ -56,7 +56,7 @@
 </script>
 
 <h1>{title}</h1>
-<TextField inputLabel={'Name'} inputPlaceholder="Name" bind:textValue={person.name} />
+<TextInput inputLabel={'Name'} inputPlaceholder="Name" bind:textValue={person.name} />
 
 {#each itemCheckStates as item, index}
 	<label class="label cursor-pointer">

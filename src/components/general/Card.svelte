@@ -20,7 +20,10 @@
 	}
 </script>
 
-<div class="card w-96 bg-neutral shadow-xl" style="width: {width}px; height: {height}px">
+<div
+	class="card w-96 bg-neutral shadow-xl overflow-visible"
+	style="width: {width}px; height: {height}px"
+>
 	<div class="card-body">
 		<div class="card-header flex justify-between align-center">
 			<h2 class="text-accent hover:text-accent-focus card-title"><slot name="title" /></h2>

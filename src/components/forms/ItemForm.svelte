@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-	import TextField from '../general/textField.svelte';
+	import TextInput from '../general/textInput.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import Select from 'svelte-select';
 	import Fa from 'svelte-fa';
@@ -89,13 +89,13 @@
 </script>
 
 <h1>{title}</h1>
-<TextField
+<TextInput
 	inputLabel={'Name'}
 	styleClass={'input-info'}
 	inputPlaceholder="Name of the item"
 	bind:textValue={item.name}
 />
-<TextField
+<TextInput
 	inputLabel={'Members'}
 	styleClass={'input-info'}
 	inputPlaceholder="Member titles (comma separated)"
@@ -108,7 +108,7 @@
 		items={rolesForSelect}
 		placeholder={'Select..'}
 		value={null}
-		on:select={(e) => handleSelect(e)}
+ 		on:select={(e) => handleSelect(e)}
 	/>
 </div>
 

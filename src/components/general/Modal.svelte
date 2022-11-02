@@ -9,7 +9,7 @@
 			class="flex bg-base-100 items-center sm:items-center justify-center min-h-full p-4 text-center sm:p-0"
 		>
 			<div
-				class="relative card w-96 bg-neutral shadow-xl rounded-lg px-4 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full sm:p-6"
+				class="relative card w-96 bg-neutral shadow-xl overflow-visible rounded-lg px-4 pb-4 text-left shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full sm:p-6"
 			>
 				<slot />
 			</div>

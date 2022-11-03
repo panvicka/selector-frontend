@@ -12,7 +12,7 @@
 	export let eventsToShow = [];
 	let mappedTableData = [];
 	let columns = ['startDate', 'endDate'];
-	console.log(eventsToShow);
+	// console.log(eventsToShow);
 
 	const camelize = (str) => {
 		return str
@@ -33,12 +33,9 @@
 	};
 	const addToArrayIfKeyValueDoesntExist = (array, key, object) => {
 		if (findByKeyInArray(key, object[key], array) == -1) {
-			console.log('object not found in the array, adding');
 			array.push(object);
 			return array;
 		} else {
-			console.log('object found in array, do nothing');
-
 			return array;
 		}
 	};
@@ -48,13 +45,10 @@
 	const getParticipantTitles = (events) => {
 		events.forEach((event) => {
 			event.participants.forEach((participant) => {
-				console.log(participant);
 				const aux = {
 					id: camelize(participant.role.name),
 					name: participant.role.name
 				};
-				console.log('aux');
-				console.log(aux);
 
 				participantTableHeaderTitles = addToArrayIfKeyValueDoesntExist(
 					participantTableHeaderTitles,

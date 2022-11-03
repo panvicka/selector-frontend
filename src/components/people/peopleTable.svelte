@@ -7,18 +7,50 @@
 	export let data = {};
 	export let item = {};
 
-	// console.log(data);
-	// console.log(item);
+	console.log('person table');
+	console.log(data);
+	console.log(item);
 	let grid;
 	let mappedTableData;
 	let columns;
 
+	const camelize = (str) => {
+		return str
+			.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+				return index === 0 ? word.toLowerCase() : word.toUpperCase();
+			})
+			.replace(/\s+/g, '');
+	};
+
 	let mapColumns = (item) => {
 		let dateColumns = [];
-		item.memberTitles.forEach((title) => {
-			dateColumns.push(`${title}`);
-			dateColumns.push(`lastTimeIn${title}`);
+		// item.memberTitles.forEach((title) => {
+		// 	dateColumns.push(`${title}`);
+		// 	dateColumns.push(`lastTimeIn${title}`);
+		// });
+
+		console.log('map cols');
+		item.roles.forEach((role) => {
+			dateColumns.push(camelize(role.name));
+			dateColumns.push(camelize(`last time in ${role.name}`));
 		});
+
+		console.log(dateColumns);
+
+		// item.roles.forEach((role) => {
+		// 	const roleHeader = {
+		// 		id: camelize(role.name),
+		// 		name: role.name
+		// 	};
+
+		// 	const lastTimeIn = {
+		// 		id: camelize(`lastTimeIn${role.name}`),
+		// 		name: `Last time as ${role.name}`
+		// 	};
+
+		// 	dateColumns.push(roleHeader);
+		// 	dateColumns.push(roleHeader);
+		// });
 
 		let mapped = dateColumns.map((i) => {
 			if (i.startsWith('lastTime')) {
@@ -110,23 +142,23 @@
 					return formatDate(date);
 				});
 				if (position !== -1) {
-					tableData[position][key] = roleAttendance.attended;
-					tableData[position][`lastTimeIn${key}`] = roleAttendance.latestDate
+					tableData[position][camelize(key)] = roleAttendance.attended;
+					tableData[position][camelize(`last Time In ${key}`)] = roleAttendance.latestDate
 						? formatDate(roleAttendance.latestDate)
 						: '';
 				} else {
 					tableData.push({
 						name: roleAttendance.name,
-						[key]: roleAttendance.attended,
+						[camelize(key)]: roleAttendance.attended,
 
-						[`lastTimeIn${key}`]: roleAttendance.latestDate
+						[camelize(`last Time In ${key}`)]: roleAttendance.latestDate
 							? formatDate(roleAttendance.latestDate)
 							: ''
 					});
 				}
 			});
 		}
-		// console.log(tableData);
+		console.log(tableData);
 
 		return tableData;
 	};

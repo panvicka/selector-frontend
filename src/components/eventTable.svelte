@@ -4,25 +4,54 @@
 	import Grid from 'gridjs-svelte';
 	import { h } from 'gridjs';
 	import 'gridjs/dist/theme/mermaid.css';
+	import { onMount } from 'svelte';
 
 	import { createEventDispatcher } from 'svelte';
+	import { camelize } from '../utils/stringUtils';
+	import { addToArrayIfKeyValueDoesntExist } from '../utils/arrayUtils';
 	const dispatch = createEventDispatcher();
 
 	export let eventsToShow = [];
 	let mappedTableData = [];
 	let columns = ['startDate', 'endDate'];
 
-	let mapData = (events) => {
-		return events.map((event) => {
-			let people = {};
-			event?.item?.memberTitles.forEach((title, index) => {
-				people[title] = event.people?.[index]?.name || '';
+
+
+	let participantTableHeaderTitles = [];
+
+	const getParticipantTitles = (events) => {
+		events.forEach((event) => {
+			event.participants.forEach((participant) => {
+				const aux = {
+					id: camelize(participant.role.name),
+					name: participant.role.name
+				};
+
+				participantTableHeaderTitles = addToArrayIfKeyValueDoesntExist(
+					participantTableHeaderTitles,
+					'id',
+					aux
+				);
 			});
+		});
+	};
+
+	onMount(async () => {
+		getParticipantTitles(eventsToShow);
+	});
+
+	let mapDataNew = (events) => {
+		let auxObject = {};
+		return events.map((event) => {
+			event.participants.forEach((participant) => {
+				auxObject = { ...auxObject, [camelize(participant.role.name)]: participant.person.name };
+			});
+
 			return {
 				startDate: new Date(event.startDate).toLocaleString().split(',')[0],
 				endDate: event.endDate ? new Date(event.endDate).toLocaleString().split(',')[0] : '',
 				id: event._id,
-				...people
+				...auxObject
 			};
 		});
 	};
@@ -35,7 +64,7 @@
 			},
 			'startDate',
 			'endDate',
-			...events[0].item.memberTitles,
+			...participantTableHeaderTitles,
 			{
 				name: 'Edit',
 				formatter: (cell, row) => {
@@ -71,7 +100,7 @@
 
 	$: {
 		if (grid) {
-			mappedTableData = mapData(eventsToShow);
+			mappedTableData = mapDataNew(eventsToShow);
 			columns = mapColumns(eventsToShow);
 			grid.updateConfig({ data: mappedTableData, columns: columns }).forceRender();
 		}

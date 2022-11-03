@@ -30,7 +30,7 @@
 	}
 </script>
 
-<div class="themed-select-${colorStyle}">
+<div class="themed-select-{colorStyle}">
 	<Select {items} {placeholder} {value} on:select={(e) => handleSelect(e)} />
 </div>
 

@@ -10,6 +10,7 @@
 		findByKeyInArray,
 		removeFromArrayBasedOnKey
 	} from '../../utils/arrayUtils';
+	import SelectDropdown from '../general/SelectDropdown.svelte';
 	const dispatch = createEventDispatcher();
 
 	function close() {
@@ -24,14 +25,12 @@
 
 	export let item = {
 		name: '',
-		memberTitles: [],
 		roles: []
 	};
 
 	export let allRoles = [];
 	export let title = '';
 
-	console.log(allRoles);
 	let rolesForSelect = allRoles.map((role) => {
 		return {
 			value: role._id,
@@ -41,18 +40,12 @@
 
 	let selectedRoles = item.roles || [];
 
-	console.log(selectedRoles);
-
-	let membersStringed = item?.memberTitles?.toString();
-
-	$: item.memberTitles = membersStringed.split(',');
 	$: item.roles = selectedRoles;
 
-	const handleSelect = (e) => {
-		console.log(e.detail.value);
-		let role = findByKeyInArray('_id', e.detail.value, allRoles);
+	const handleSelect = (event) => {
+		console.log(event);
+		let role = findByKeyInArray('_id', event.detail.selected.value, allRoles);
 		selectedRoles = addToArrayIfKeyValueDoesntExist(selectedRoles, '_id', role);
-		console.log(selectedRoles);
 	};
 
 	const deleteTrigger = (roleId) => {
@@ -67,20 +60,15 @@
 	inputPlaceholder="Name of the item"
 	bind:textValue={item.name}
 />
-<TextInput
-	inputLabel={'Members'}
-	styleClass={'input-info'}
-	inputPlaceholder="Member titles (comma separated)"
-	bind:textValue={membersStringed}
-/>
 
 <div class="themed-select item">
 	Roles
-	<Select
+
+	<SelectDropdown
 		items={rolesForSelect}
 		placeholder={'Select..'}
 		value={null}
-		on:select={(e) => handleSelect(e)}
+		on:dropdownSelect={(event) => handleSelect(event)}
 	/>
 </div>
 

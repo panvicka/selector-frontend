@@ -1,9 +1,11 @@
 <script>
 	// @ts-nocheck
 	import { createEventDispatcher } from 'svelte';
-	import Select from 'svelte-select';
 	import DateInput from '../general/DateInput.svelte';
 	import { onMount } from 'svelte';
+	import { replaceKeyValueInToArrayIfKeyExistOrAdd } from '../../utils/arrayUtils';
+	import SelectDropdown from '../general/SelectDropdown.svelte';
+	import Select from 'svelte-select';
 	const dispatch = createEventDispatcher();
 
 	export let peopleToSelectFrom = [];
@@ -12,18 +14,29 @@
 	let selectedPeople = [];
 
 	export let event = {
-		item: {
-			_id: '',
-			memberTitles: []
-		},
 		startDate: '',
 		endDate: '',
-		people: []
+		people: [],
+		participants: []
 	};
 
+	export let item = {
+		_id: '',
+		roles: {}
+	};
+
+	console.log(event);
+
 	onMount(async () => {
-		selectedPeople = event.people || [];
+		event.participants.forEach((participant) => {
+			selectedParticipants.push({
+				role: participant.role._id,
+				person: participant.person._id
+			});
+		});
 	});
+
+	let selectedParticipants = [];
 
 	let startDate = event.startDate;
 	let endDate = event.endDate ? event.endDate : '';
@@ -36,14 +49,28 @@
 		event.people = selectedPeople;
 		event.startDate = startDate;
 		event.endDate = endDate;
+		event.participants = selectedParticipants;
 		dispatch('submit', {
 			event
 		});
 	}
 
-	function handleSelect(event, index) {
-		console.log('selected item', event.detail);
-		selectedPeople[index] = event.detail.value;
+	const getNameForRoleId = (roleId) => {
+		let person = null;
+		event.participants.forEach((participant) => {
+			if (participant.role._id == roleId) {
+				person = participant.person.name;
+				return;
+			}
+		});
+		return person;
+	};
+
+	function handleSelect(event, roleId) {
+		replaceKeyValueInToArrayIfKeyExistOrAdd(selectedParticipants, 'role', {
+			role: roleId,
+			person: event.detail.selected.value
+		});
 	}
 </script>
 
@@ -57,15 +84,15 @@
 	End Date
 	<DateInput bind:date={endDate} />
 </div>
-{#each event.item.memberTitles as member, i}
-	
-	<div class="themed-select item">
-		{member}
-		<Select
+
+{#each item.roles as role, i}
+	<div class="item">
+		{role.name}
+		<SelectDropdown
 			items={peopleToSelectFrom}
 			placeholder={'Select..'}
-			value={event?.people?.[i]?.name || null}
-			on:select={(e) => handleSelect(e, i)}
+			value={getNameForRoleId(role._id)}
+			on:dropdownSelect={(event) => handleSelect(event, role._id)}
 		/>
 	</div>
 {/each}
@@ -82,27 +109,14 @@
 </div>
 
 <style>
-.item {
-	padding: 0.3em;
-}
+	.item {
+		padding: 0.3em;
+	}
 
 	.button-group {
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
 		padding: 2em 0;
-	}
-
-	.themed-select {
-		--tw-ring-color: transparent;
-		--padding: 1em;
-		--border: 0.1em solid #641ae6;
-		--borderFocusColor: #641ae6;
-		--borderRadius: 10px;
-		--background: #2a303c;
-		--listBackground: #2a303c;
-		--itemIsActiveBG: #641ae6;
-		--itemHoverBG: #171a20;
-		--height: 50px;
 	}
 </style>

@@ -15,9 +15,7 @@
 	import { getAllPeopleAndRoleCount } from './itemHandlerFunctions';
 	import { faPlus } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
-	import EventFormNew from '../forms/eventFormNew.svelte';
-	import EventTableNew from '../eventTableNew.svelte';
-
+ 
 	export let item;
 
 	let itemEvents = [];
@@ -60,7 +58,7 @@
 
 {#if showCreateEventModalOpened}
 	<Modal>
-		<EventFormNew
+		<EventForm
 			title={'Create new event'}
 			peopleToSelectFrom={selectablePeople}
 			{item}
@@ -78,7 +76,7 @@
 
 {#if showEditModalOpened}
 	<Modal>
-		<EventFormNew
+		<EventForm
 			title={'Edit event'}
 			peopleToSelectFrom={selectablePeople}
 			event={workingEventReference}
@@ -128,7 +126,7 @@
 	<h2>Event List</h2>
 </div>
 {#if itemEvents.length > 0}
-	<EventTableNew
+	<EventTable
 		on:submitEdit={async (event) => {
 			workingEventReference = await getEventById(event.detail.eventId);
 			showEditModalOpened = true;

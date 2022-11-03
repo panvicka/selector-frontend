@@ -29,7 +29,9 @@
 	<a slot="title" href={`items/${item._id}`}>{item.name}</a>
 
 	<div slot="content">
-		<br /> roles:
+		<p>{item.description}</p>
+
+		<br />
 
 		{#each item.roles || [] as role}
 			<div class="tooltip tooltip-info" data-tip={role.description}>

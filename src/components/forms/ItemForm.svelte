@@ -11,6 +11,7 @@
 		removeFromArrayBasedOnKey
 	} from '../../utils/arrayUtils';
 	import SelectDropdown from '../general/SelectDropdown.svelte';
+	import TextField from '../general/textField.svelte';
 	const dispatch = createEventDispatcher();
 
 	function close() {
@@ -25,7 +26,9 @@
 
 	export let item = {
 		name: '',
-		roles: []
+		description: '',
+		roles: [],
+		isLongerThenOneDay: false
 	};
 
 	export let allRoles = [];
@@ -61,9 +64,14 @@
 	bind:textValue={item.name}
 />
 
+<TextField
+	inputLabel={'Description'}
+	inputPlaceholder="Write the description here"
+	bind:textValue={item.description}
+/>
+
 <div class="themed-select item">
 	Roles
-
 	<SelectDropdown
 		items={rolesForSelect}
 		placeholder={'Select..'}

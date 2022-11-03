@@ -1,9 +1,13 @@
 import { createItem, deleteItem, getItemPeopleAttendance, updateItem } from '../../api/item';
 
 export const handleCreateNew = async (event, fetchAllFunction) => {
+	console.log(event.detail.item)
 	await createItem({
 		name: event.detail.item.name,
-		roles: event.detail.item.roles
+		roles: event.detail.item.roles,
+		description: event.detail.item.description,
+		isLongerThenOneDay: event.detail.item.isLongerThenOneDay,
+		groups: event.detail.item.groups
 	});
 	fetchAllFunction();
 };

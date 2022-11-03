@@ -1,18 +1,16 @@
 import { createEvent, updateEvent, deleteEvent } from '../../api/event';
 
-export const handleCreateNewEvent = async (event, refetchFunction) => {
+export const handleCreateNewEvent = async (event, item) => {
+	console.log(event.participants);
 	const payload = {
-		item: event.item._id,
+		item: item._id,
 		people: event.people,
 		startDate: event.startDate,
-		endDate: event.endDate
+		endDate: event.endDate,
+		participants: event.participants
 	};
 
 	await createEvent(payload);
-
-	if (typeof refetchFunction === 'function') {
-		refetchFunction();
-	}
 };
 
 export const handleUpdateEvent = async (event, refetchFunction) => {
@@ -20,7 +18,8 @@ export const handleUpdateEvent = async (event, refetchFunction) => {
 		item: event.item._id,
 		people: event.people,
 		startDate: event.startDate,
-		endDate: event.endDate
+		endDate: event.endDate,
+		participants: event.participants
 	});
 
 	if (typeof refetchFunction === 'function') {
@@ -29,7 +28,7 @@ export const handleUpdateEvent = async (event, refetchFunction) => {
 };
 
 export const handleDeleteEvent = async (event, refetchFunction) => {
-    await deleteEvent(event._id);
+	await deleteEvent(event._id);
 	if (typeof refetchFunction === 'function') {
 		refetchFunction();
 	}

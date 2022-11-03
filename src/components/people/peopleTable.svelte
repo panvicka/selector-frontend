@@ -7,8 +7,8 @@
 	export let data = {};
 	export let item = {};
 
-	console.log(data);
-	console.log(item);
+	// console.log(data);
+	// console.log(item);
 	let grid;
 	let mappedTableData;
 	let columns;
@@ -48,7 +48,7 @@
 			};
 		});
 
-		console.log(mapped);
+		// console.log(mapped);
 		return ['name', ...mapped];
 	};
 
@@ -103,7 +103,7 @@
 		let tableData = [];
 
 		for (const key in data) {
-			console.log(key);
+			// console.log(key);
 			data[key].forEach((roleAttendance) => {
 				const position = findKeyPositionInArray([...tableData], 'name', roleAttendance.name);
 				const allDates = roleAttendance.dates.map((date) => {
@@ -126,7 +126,7 @@
 				}
 			});
 		}
-		console.log(tableData);
+		// console.log(tableData);
 
 		return tableData;
 	};

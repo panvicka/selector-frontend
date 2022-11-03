@@ -15,6 +15,8 @@
 	import { getAllPeopleAndRoleCount } from './itemHandlerFunctions';
 	import { faPlus } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
+	import EventFormNew from '../forms/eventFormNew.svelte';
+	import EventTableNew from '../eventTableNew.svelte';
 
 	export let item;
 
@@ -28,6 +30,7 @@
 
 	onMount(async () => {
 		selectablePeople = await getAllSelectablePeople(item._id);
+		console.log(selectablePeople);
 		fetchAllItemEvents();
 	});
 
@@ -57,16 +60,17 @@
 
 {#if showCreateEventModalOpened}
 	<Modal>
-		<EventForm
+		<EventFormNew
 			title={'Create new event'}
 			peopleToSelectFrom={selectablePeople}
-			event={{ item }}
+			{item}
 			on:close={() => {
 				showCreateEventModalOpened = false;
 			}}
 			on:submit={(event) => {
-				handleCreateNewEvent(event.detail.event, fetchAllItemEvents);
+				handleCreateNewEvent(event.detail.event, item);
 				showCreateEventModalOpened = false;
+				fetchAllItemEvents();
 			}}
 		/>
 	</Modal>
@@ -74,10 +78,11 @@
 
 {#if showEditModalOpened}
 	<Modal>
-		<EventForm
+		<EventFormNew
 			title={'Edit event'}
 			peopleToSelectFrom={selectablePeople}
 			event={workingEventReference}
+			{item}
 			on:close={() => {
 				showEditModalOpened = false;
 			}}
@@ -123,7 +128,7 @@
 	<h2>Event List</h2>
 </div>
 {#if itemEvents.length > 0}
-	<EventTable
+	<EventTableNew
 		on:submitEdit={async (event) => {
 			workingEventReference = await getEventById(event.detail.eventId);
 			showEditModalOpened = true;

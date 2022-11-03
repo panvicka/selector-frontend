@@ -37,6 +37,7 @@ export const updateEvent = async (eventId, payload) => {
 };
 
 export const createEvent = async (payload) => {
+	console.log(payload);
 	try {
 		const response = await Api.post(`/rotationEvents/create/`, payload);
 		return response.rotationEventId;

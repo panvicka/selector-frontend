@@ -71,13 +71,6 @@
 		value={selectedIcon}
 		on:dropdownSelect={handleSelect}
 	/>
-
-	<!-- <Select
-		items={selectableIcons}
-		placeholder={'Select..'}
-		value={selectedIcon}
-		on:select={(e) => handleSelect(e)}
-	/> -->
 </div>
 
 <div>
@@ -92,17 +85,4 @@
 </div>
 
 <style>
-	.themed-select {
-		--tw-ring-color: transparent;
-		--padding: 1em;
-		--border: 0.1em solid #641ae6;
-		--borderFocusColor: #641ae6;
-		--borderRadius: 10px;
-		--background: #2a303c;
-		--listBackground: #2a303c;
-		--itemIsActiveBG: #641ae6;
-		--itemHoverBG: #171a20;
-		--height: 50px;
-		--listMaxHeight: 200px;
-	}
 </style>

@@ -20,8 +20,6 @@
 	};
 
 	function onSelect() {
-		console.log('dispatch');
-		console.log(selected);
 		if (selected.value && selected.label) {
 			dispatch('dropdownSelect', {
 				selected

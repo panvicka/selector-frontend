@@ -29,9 +29,6 @@
 	<a slot="title" href={`items/${item._id}`}>{item.name}</a>
 
 	<div slot="content">
-		{#each item.memberTitles as memberTitle}
-			<div class="badge badge-ghost">{memberTitle}</div>
-		{/each}
 		<br /> roles:
 
 		{#each item.roles || [] as role}

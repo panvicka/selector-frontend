@@ -1,6 +1,4 @@
 <script>
-	import { DeleteIcon, SettingsIcon } from 'svelte-feather-icons';
-
 	import { createEventDispatcher } from 'svelte';
 	import Fa from 'svelte-fa';
 	import { faTrash } from '@fortawesome/free-solid-svg-icons';

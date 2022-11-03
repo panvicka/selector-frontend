@@ -15,7 +15,7 @@
 	import { getAllPeopleAndRoleCount } from './itemHandlerFunctions';
 	import { faPlus } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
- 
+
 	export let item;
 
 	let itemEvents = [];
@@ -42,8 +42,8 @@
 		<h1 class="">Detail of <span class="text-accent">{item.name}</span></h1>
 
 		<div>
-			{#each item.memberTitles as memberTitle}
-				<div class="badge badge-ghost">{memberTitle}</div>
+			{#each item.roles as role}
+				<div class="badge badge-ghost">{role.name}</div>
 			{/each}
 		</div>
 

@@ -3,6 +3,7 @@
 	import Grid from 'gridjs-svelte';
 	import 'gridjs/dist/theme/mermaid.css';
 	import dayjs from 'dayjs';
+	import { camelize } from '../../utils/stringUtils';
 
 	export let data = {};
 	export let item = {};
@@ -14,47 +15,19 @@
 	let mappedTableData;
 	let columns;
 
-	const camelize = (str) => {
-		return str
-			.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
-				return index === 0 ? word.toLowerCase() : word.toUpperCase();
-			})
-			.replace(/\s+/g, '');
-	};
-
 	let mapColumns = (item) => {
 		let dateColumns = [];
-		// item.memberTitles.forEach((title) => {
-		// 	dateColumns.push(`${title}`);
-		// 	dateColumns.push(`lastTimeIn${title}`);
-		// });
 
 		console.log('map cols');
 		item.roles.forEach((role) => {
-			dateColumns.push(camelize(role.name));
-			dateColumns.push(camelize(`last time in ${role.name}`));
+			dateColumns.push(role.name);
+			dateColumns.push(`last time in ${role.name}`);
 		});
 
-		console.log(dateColumns);
-
-		// item.roles.forEach((role) => {
-		// 	const roleHeader = {
-		// 		id: camelize(role.name),
-		// 		name: role.name
-		// 	};
-
-		// 	const lastTimeIn = {
-		// 		id: camelize(`lastTimeIn${role.name}`),
-		// 		name: `Last time as ${role.name}`
-		// 	};
-
-		// 	dateColumns.push(roleHeader);
-		// 	dateColumns.push(roleHeader);
-		// });
-
 		let mapped = dateColumns.map((i) => {
-			if (i.startsWith('lastTime')) {
+			if (i.startsWith('last')) {
 				return {
+					id: camelize(i),
 					name: i,
 					sort: {
 						compare: (a, b) => {
@@ -75,12 +48,12 @@
 			}
 
 			return {
+				id: camelize(i),
 				name: i,
 				width: '15%'
 			};
 		});
 
-		// console.log(mapped);
 		return ['name', ...mapped];
 	};
 

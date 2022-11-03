@@ -4,6 +4,7 @@
 	import Select from 'svelte-select';
 	import DateInput from '../general/DateInput.svelte';
 	import { onMount } from 'svelte';
+	import { replaceKeyValueInToArrayIfKeyExistOrAdd } from '../../utils/arrayUtils';
 	const dispatch = createEventDispatcher();
 
 	export let peopleToSelectFrom = [];
@@ -54,40 +55,6 @@
 			event
 		});
 	}
-
-	// TODO extract
-	const findIndexByKeyInArray = (key, keyValue, array) => {
-		for (var i = 0; i < array.length; i++) {
-			if (array[i][key] === keyValue) {
-				return i;
-			}
-		}
-
-		return -1;
-	};
-	const removeFromArrayBasedOnKey = (key, keyValue, array) => {
-		for (var i = 0; i < array.length; i++)
-			if (array[i][key] === keyValue) {
-				array.splice(i, 1);
-				return array;
-			}
-
-		return array;
-	};
-	const replaceKeyValueInToArrayIfKeyExistOrAdd = (array, keyToExist, object) => {
-		let index = findIndexByKeyInArray(keyToExist, object[keyToExist], array);
-		console.log(index);
-		if (index == -1) {
-			console.log('object not found in the array, adding');
-			array.push(object);
-			return array;
-		} else {
-			console.log('object found in array, update');
-			array = removeFromArrayBasedOnKey(keyToExist, object[keyToExist], array);
-			array.push(object);
-			return array;
-		}
-	};
 
 	const getNameForRoleId = (roleId) => {
 		let person = null;

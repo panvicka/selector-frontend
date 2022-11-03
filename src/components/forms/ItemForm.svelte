@@ -5,7 +5,11 @@
 	import Select from 'svelte-select';
 	import Fa from 'svelte-fa';
 	import { faXmark } from '@fortawesome/free-solid-svg-icons';
-	import { time_ranges_to_array } from 'svelte/internal';
+	import {
+		addToArrayIfKeyValueDoesntExist,
+		findByKeyInArray,
+		removeFromArrayBasedOnKey
+	} from '../../utils/arrayUtils';
 	const dispatch = createEventDispatcher();
 
 	function close() {
@@ -44,38 +48,6 @@
 	$: item.memberTitles = membersStringed.split(',');
 	$: item.roles = selectedRoles;
 
-	const addToArrayIfKeyValueDoesntExist = (array, key, object) => {
-		if (findByKeyInArray(key, object[key], array) == -1) {
-			console.log('object not found in the array, adding');
-			array.push(object);
-			return array;
-		} else {
-			console.log('object found in array, do nothing');
-
-			return array;
-		}
-	};
-
-	const findByKeyInArray = (key, keyValue, array) => {
-		for (var i = 0; i < array.length; i++) {
-			if (array[i][key] === keyValue) {
-				return array[i];
-			}
-		}
-
-		return -1;
-	};
-
-	const removeFromArrayBasedOnKey = (key, keyValue, array) => {
-		for (var i = 0; i < array.length; i++)
-			if (array[i][key] === keyValue) {
-				array.splice(i, 1);
-				return array;
-			}
-
-		return array;
-	};
-
 	const handleSelect = (e) => {
 		console.log(e.detail.value);
 		let role = findByKeyInArray('_id', e.detail.value, allRoles);
@@ -108,7 +80,7 @@
 		items={rolesForSelect}
 		placeholder={'Select..'}
 		value={null}
- 		on:select={(e) => handleSelect(e)}
+		on:select={(e) => handleSelect(e)}
 	/>
 </div>
 

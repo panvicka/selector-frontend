@@ -7,38 +7,15 @@
 	import { onMount } from 'svelte';
 
 	import { createEventDispatcher } from 'svelte';
+	import { camelize } from '../utils/stringUtils';
+	import { addToArrayIfKeyValueDoesntExist } from '../utils/arrayUtils';
 	const dispatch = createEventDispatcher();
 
 	export let eventsToShow = [];
 	let mappedTableData = [];
 	let columns = ['startDate', 'endDate'];
-	// console.log(eventsToShow);
 
-	const camelize = (str) => {
-		return str
-			.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
-				return index === 0 ? word.toLowerCase() : word.toUpperCase();
-			})
-			.replace(/\s+/g, '');
-	};
 
-	const findByKeyInArray = (key, keyValue, array) => {
-		for (var i = 0; i < array.length; i++) {
-			if (array[i][key] === keyValue) {
-				return array[i];
-			}
-		}
-
-		return -1;
-	};
-	const addToArrayIfKeyValueDoesntExist = (array, key, object) => {
-		if (findByKeyInArray(key, object[key], array) == -1) {
-			array.push(object);
-			return array;
-		} else {
-			return array;
-		}
-	};
 
 	let participantTableHeaderTitles = [];
 

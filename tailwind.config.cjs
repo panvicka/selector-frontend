@@ -7,6 +7,6 @@ module.exports = {
 	theme: {
 		extend: {}
 	},
-	plugins: [require('daisyui'), require('@tailwindcss/typography'), require('flowbite/plugin')],
+	plugins: [require('daisyui'), require('@tailwindcss/typography')],
 	darkMode: 'class'
 };

@@ -57,42 +57,54 @@
 </script>
 
 <h1>{title}</h1>
-<TextInput
-	inputLabel={'Name'}
-	styleClass={'input-info'}
-	inputPlaceholder="Name of the item"
-	bind:textValue={item.name}
-/>
+<div class="flex w-full">
+	<div class="bg-base-300 rounded-box w-80 p-4">
+		<TextInput
+			inputLabel={'Name'}
+			styleClass={'input-info'}
+			inputPlaceholder="Name of the item"
+			bind:textValue={item.name}
+		/>
 
-<TextField
-	inputLabel={'Description'}
-	inputPlaceholder="Write the description here"
-	bind:textValue={item.description}
-/>
+		<TextField
+			inputLabel={'Description'}
+			inputPlaceholder="Write the description here"
+			bind:textValue={item.description}
+		/>
 
-<div class="themed-select item">
-	Roles
-	<SelectDropdown
-		items={rolesForSelect}
-		placeholder={'Select..'}
-		value={null}
-		on:dropdownSelect={(event) => handleSelect(event)}
-	/>
-</div>
+		<label class="cursor-pointer label">
+			<span class="label-text">Interval tracking?</span>
+			<input type="checkbox" class="toggle toggle-primary" bind:checked={item.isLongerThenOneDay} />
+		</label>
+	</div>
+	<div class="divider divider-horizontal"></div>
 
-Selected roles:
-<div>
-	{#each selectedRoles || [] as role}
-		<div class="badge badge-ghost">
-			<Fa size="lg" class="role-icon" icon={role.icon} />
-			{role.name}
-			<button
-				on:click={() => {
-					deleteTrigger(role._id);
-				}}><Fa size="xs" id="delete" icon={faXmark} /></button
-			>
+	<div class="bg-base-300 rounded-box w-80 p-4">
+		<div class="item">
+			Roles
+			<SelectDropdown
+				items={rolesForSelect}
+				placeholder={'Select..'}
+				value={null}
+				on:dropdownSelect={(event) => handleSelect(event)}
+			/>
 		</div>
-	{/each}
+
+		Selected roles:
+		<div>
+			{#each selectedRoles || [] as role}
+				<div class="badge badge-ghost">
+					<Fa size="lg" class="role-icon" icon={role.icon} />
+					{role.name}
+					<button
+						on:click={() => {
+							deleteTrigger(role._id);
+						}}><Fa size="xs" id="delete" icon={faXmark} /></button
+					>
+				</div>
+			{/each}
+		</div>
+	</div>
 </div>
 
 <div class="buttons">
@@ -111,18 +123,5 @@ Selected roles:
 		margin-top: 3em;
 		display: flex;
 		justify-content: space-between;
-	}
-
-	.themed-select {
-		--tw-ring-color: transparent;
-		--padding: 1em;
-		--border: 0.1em solid #641ae6;
-		--borderFocusColor: #641ae6;
-		--borderRadius: 10px;
-		--background: #2a303c;
-		--listBackground: #2a303c;
-		--itemIsActiveBG: #641ae6;
-		--itemHoverBG: #171a20;
-		--height: 50px;
 	}
 </style>

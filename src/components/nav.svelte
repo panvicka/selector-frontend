@@ -78,3 +78,9 @@
 		</div>
 	</div>
 </header>
+
+<style>
+	.reset {
+		all: initial;
+	}
+</style>
